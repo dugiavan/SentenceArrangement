@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Grammar Master - Học Tiếng Anh</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+  :root {
+    --bg: #f5f0ff;
+    --card-bg: #ffffff;
+    --accent: #7c3aed;
+    --accent-light: #ede9fe;
+    --accent2: #ec4899;
+    --slot-bg: #ede9fe;
+    --slot-border: #a78bfa;
+    --correct: #bbf7d0;
+    --correct-border: #16a34a;
+    --wrong: #fecdd3;
+    --text: #1e1b4b;
+    --subtext: #6b7280;
+    --shadow: 0 4px 14px rgba(124,58,237,0.12);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 8px 30px;
+    overscroll-behavior-y: contain;
+    overflow-x: hidden;
+  }
+
+  /* === HEADER === */
+  .header {
+    width: 100%;
+    max-width: 680px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .title {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .title span { color: var(--accent2); }
+
+  /* === CONTROLS ROW === */
+  .controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin: 8px 0;
+    flex-wrap: wrap;
+  }
+  .difficulty-select {
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 2px solid var(--accent);
+    font-family: 'Nunito';
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--accent);
+    background: white;
+    outline: none;
+    cursor: pointer;
+  }
+  .score-badge {
+    background: var(--accent);
+    color: white;
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 8px 18px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  /* === INFO PANEL === */
+  .info-panel {
+    width: 100%;
+    max-width: 680px;
+    background: white;
+    border-radius: 18px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--accent2);
+  }
+  .info-translation {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #be185d;
+    margin-bottom: 5px;
+  }
+  .info-tense {
+    display: inline-block;
+    font-size: 0.82rem;
+    font-weight: 800;
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 3px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+  .info-hint {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-top: 5px;
+    color: var(--subtext);
+    min-height: 22px;
+  }
+  .info-hint.success { color: #16a34a; }
+
+  /* === DROP ZONE === */
+  .sentence-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    width: 100%;
+    max-width: 680px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 20px;
+    padding: 14px 12px;
+    min-height: 80px;
+    margin-bottom: 10px;
+    border: 2px dashed #c4b5fd;
+  }
+  .word-slot {
+    min-width: 60px;
+    padding: 6px 8px;
+    height: 52px;
+    border: 2px dashed var(--slot-border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--slot-bg);
+    transition: background 0.2s, border-color 0.2s;
+    font-size: 0.9rem;
+  }
+  .word-slot.filled {
+    border-style: solid;
+    border-color: var(--accent);
+    background: white;
+  }
+  .word-slot.correct-blink {
+    background: var(--correct) !important;
+    border-color: var(--correct-border) !important;
+    animation: pulse-slot 0.45s 2;
+  }
+  @keyframes pulse-slot {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  /* === WORD POOL === */
+  .word-pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    padding: 14px 10px;
+    width: 100%;
+    max-width: 680px;
+    border-top: 2px solid #ddd6fe;
+    min-height: 100px;
+  }
+
+  /* === CARDS === */
+  .card {
+    padding: 9px 14px;
+    background: white;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: grab;
+    box-shadow: 0 4px 0 rgba(124,58,237,0.18);
+    border: 2px solid #e9d5ff;
+    user-select: none;
+    /* ANDROID: none blocks all touch gestures so pointer events fire cleanly */
+    touch-action: none;
+    color: var(--text);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    /* ANDROID: promote to own compositor layer for smooth dragging */
+    will-change: transform;
+    /* ANDROID: isolate paint so moving card doesn't repaint the whole page */
+    contain: layout style;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+  }
+  .card:hover { border-color: var(--accent); }
+  .card.dragging {
+    opacity: 0.75;
+    transform: scale(1.1) rotate(2deg);
+    pointer-events: none;
+    position: fixed;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(124,58,237,0.28);
+    border-color: var(--accent);
+    /* ANDROID: keep on GPU layer while flying */
+    will-change: left, top;
+    contain: strict;
+  }
+
+  /* === FOOTER BUTTON === */
+  .footer {
+    margin-top: 14px;
+  }
+  .btn-next {
+    padding: 12px 36px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white;
+    font-family: 'Nunito';
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(124,58,237,0.35);
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+  }
+  .btn-next:active:not(:disabled) { transform: scale(0.96); }
+  /* Feature 2: disabled state */
+  .btn-next:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+
+  /* === TENSE LABEL MAP === */
+  /* colors per tense */
+  .tense-present_simple   { background: #d1fae5; color: #065f46; }
+  .tense-past_simple      { background: #fef3c7; color: #92400e; }
+  .tense-present_continuous { background: #dbeafe; color: #1e40af; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="title">🚀 Grammar <span>Master</span></div>
+</div>
+
+<div class="controls">
+  <select class="difficulty-select" id="difficulty" onchange="nextLevel()">
+    <option value="easy">⭐ Dễ (4 từ)</option>
+    <option value="medium" selected>⭐⭐ Trung bình (5 từ)</option>
+    <option value="hard">⭐⭐⭐ Khó (8 từ)</option>
+  </select>
+  <div class="score-badge">🏆 Điểm: <span id="score">0</span></div>
+</div>
+
+<div class="info-panel">
+  <div class="info-translation" id="translation-text">Đang tải...</div>
+  <span class="info-tense" id="tense-label">—</span>
+  <div class="info-hint" id="hint-text">Kéo các từ vào đúng vị trí!</div>
+</div>
+
+<div class="sentence-display" id="drop-zone"></div>
+<div class="word-pool" id="pool"></div>
+
+<div class="footer">
+  <button class="btn-next" id="btn-next" onclick="nextLevel()" disabled>Câu tiếp theo ➡️</button>
+</div>
+
+<script>
+// ─── SOUND EFFECTS ───────────────────────────────────────────────────────────
+const sfx = {
+  correct: new Audio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3'),
+  wrong:   new Audio('https://assets.mixkit.co/active_storage/sfx/951/951-preview.mp3'),
+  drag:    new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3')
+};
+
+// ─── TENSE LABELS ────────────────────────────────────────────────────────────
+const TENSE_LABELS = {
+  present_simple:      'Thì: Present Simple',
+  past_simple:         'Thì: Past Simple',
+  present_continuous:  'Thì: Present Continuous'
+};
+
+// ─── SENTENCE LIBRARY ────────────────────────────────────────────────────────
+// Easy = exactly 4 words | Medium = exactly 5 words | Hard = exactly 8 words
+const library = {
+
+  easy: [
+    // Present Simple
+    {en:["I","eat","fried","rice"],        vi:"Tôi ăn cơm chiên.",              tense:"present_simple"},
+    {en:["She","likes","sweet","mangoes"],  vi:"Cô ấy thích xoài ngọt.",         tense:"present_simple"},
+    {en:["He","drinks","hot","tea"],        vi:"Anh ấy uống trà nóng.",           tense:"present_simple"},
+    {en:["They","play","every","day"],      vi:"Họ chơi mỗi ngày.",              tense:"present_simple"},
+    {en:["We","love","cold","milk"],        vi:"Chúng tôi thích sữa lạnh.",       tense:"present_simple"},
+    {en:["Cats","chase","small","mice"],    vi:"Mèo đuổi những con chuột nhỏ.",  tense:"present_simple"},
+    {en:["Dogs","like","raw","bones"],      vi:"Chó thích xương sống.",           tense:"present_simple"},
+    {en:["Birds","build","small","nests"],  vi:"Chim xây tổ nhỏ.",               tense:"present_simple"},
+    {en:["Fish","swim","in","water"],       vi:"Cá bơi trong nước.",             tense:"present_simple"},
+    {en:["Bees","make","sweet","honey"],    vi:"Ong làm mật ngọt.",              tense:"present_simple"},
+    // Past Simple
+    {en:["She","bought","new","shoes"],     vi:"Cô ấy đã mua giày mới.",         tense:"past_simple"},
+    {en:["He","cooked","fried","rice"],     vi:"Anh ấy đã nấu cơm chiên.",       tense:"past_simple"},
+    {en:["They","played","all","day"],      vi:"Họ đã chơi cả ngày.",            tense:"past_simple"},
+    {en:["We","visited","our","grandma"],   vi:"Chúng tôi đã thăm bà.",          tense:"past_simple"},
+    {en:["I","lost","my","key"],            vi:"Tôi đã mất chìa khóa.",          tense:"past_simple"},
+    {en:["She","sang","very","well"],       vi:"Cô ấy đã hát rất hay.",          tense:"past_simple"},
+    {en:["He","ran","very","fast"],         vi:"Anh ấy đã chạy rất nhanh.",      tense:"past_simple"},
+    {en:["They","slept","very","late"],     vi:"Họ đã ngủ rất muộn.",            tense:"past_simple"},
+    {en:["I","read","that","book"],         vi:"Tôi đã đọc quyển sách đó.",      tense:"past_simple"},
+    {en:["We","ate","fresh","fish"],        vi:"Chúng tôi đã ăn cá tươi.",       tense:"past_simple"},
+    // Present Continuous
+    {en:["She","is","reading","now"],       vi:"Cô ấy đang đọc sách.",           tense:"present_continuous"},
+    {en:["He","is","eating","lunch"],       vi:"Anh ấy đang ăn trưa.",           tense:"present_continuous"},
+    {en:["They","are","playing","football"],vi:"Họ đang chơi bóng đá.",          tense:"present_continuous"},
+    {en:["I","am","drinking","water"],      vi:"Tôi đang uống nước.",            tense:"present_continuous"},
+    {en:["We","are","watching","TV"],       vi:"Chúng tôi đang xem TV.",         tense:"present_continuous"},
+    {en:["She","is","singing","loudly"],    vi:"Cô ấy đang hát to.",             tense:"present_continuous"},
+    {en:["He","is","sleeping","now"],       vi:"Anh ấy đang ngủ.",               tense:"present_continuous"},
+    {en:["They","are","cooking","dinner"],  vi:"Họ đang nấu bữa tối.",           tense:"present_continuous"},
+    {en:["I","am","drawing","pictures"],    vi:"Tôi đang vẽ tranh.",             tense:"present_continuous"},
+    {en:["We","are","doing","homework"],    vi:"Chúng tôi đang làm bài tập.",    tense:"present_continuous"},
+    // Do/Does/Did Questions (4 words)
+    {en:["Do","you","like","coffee"],       vi:"Bạn có thích cà phê không?",     tense:"present_simple_question"},
+    {en:["Does","she","sing","well"],       vi:"Cô ấy có hát hay không?",        tense:"present_simple_question"},
+    {en:["Did","they","come","home"],       vi:"Họ có về nhà không?",            tense:"present_simple_question"},
+    {en:["Do","cats","eat","fish"],         vi:"Mèo có ăn cá không?",            tense:"present_simple_question"},
+    {en:["Did","he","pass","today"],        vi:"Anh ấy có đậu hôm nay không?",  tense:"present_simple_question"},
+    // To be Questions (4 words)
+    {en:["Are","you","feeling","better"],   vi:"Bạn có cảm thấy khỏe hơn không?", tense:"be_question"},
+    {en:["Is","she","at","home"],           vi:"Cô ấy có ở nhà không?",          tense:"be_question"},
+    {en:["Were","they","very","late"],      vi:"Họ có đến muộn không?",          tense:"be_question"},
+    {en:["Is","he","very","tired"],         vi:"Anh ấy có mệt lắm không?",      tense:"be_question"},
+    {en:["Are","we","going","now"],         vi:"Chúng ta đi ngay bây giờ không?",tense:"be_question"},
+    // Do not / Does not / Did not Negatives (4 words)
+    {en:["I","do","not","swim"],            vi:"Tôi không biết bơi.",            tense:"present_simple_negative"},
+    {en:["She","does","not","cook"],        vi:"Cô ấy không nấu ăn.",            tense:"present_simple_negative"},
+    {en:["They","did","not","come"],        vi:"Họ đã không đến.",               tense:"present_simple_negative"},
+    {en:["He","does","not","run"],          vi:"Anh ấy không chạy.",             tense:"present_simple_negative"},
+    {en:["We","did","not","go"],            vi:"Chúng tôi đã không đi.",         tense:"present_simple_negative"},
+    // To be Negatives (4 words)
+    {en:["I","am","not","tired"],           vi:"Tôi không mệt.",                 tense:"be_negative"},
+    {en:["She","is","not","here"],          vi:"Cô ấy không ở đây.",             tense:"be_negative"},
+    {en:["They","are","not","ready"],       vi:"Họ chưa sẵn sàng.",             tense:"be_negative"},
+    {en:["He","is","not","happy"],          vi:"Anh ấy không vui.",              tense:"be_negative"},
+    {en:["We","are","not","late"],          vi:"Chúng tôi không muộn.",          tense:"be_negative"},
+  ],
+
+  medium: [
+    // Present Simple
+    {en:["I","eat","rice","every","day"],            vi:"Tôi ăn cơm mỗi ngày.",                tense:"present_simple"},
+    {en:["She","likes","very","sweet","fruit"],       vi:"Cô ấy thích trái cây rất ngọt.",      tense:"present_simple"},
+    {en:["He","goes","to","work","early"],            vi:"Anh ấy đi làm sớm.",                  tense:"present_simple"},
+    {en:["They","drink","milk","every","morning"],    vi:"Họ uống sữa mỗi buổi sáng.",          tense:"present_simple"},
+    {en:["We","study","English","at","school"],       vi:"Chúng tôi học tiếng Anh ở trường.",   tense:"present_simple"},
+    {en:["Dogs","always","bark","at","strangers"],    vi:"Chó luôn sủa người lạ.",              tense:"present_simple"},
+    {en:["She","always","helps","her","mother"],      vi:"Cô ấy luôn giúp mẹ.",                tense:"present_simple"},
+    {en:["The","sun","rises","in","the","east"],      vi:"Mặt trời mọc ở phía đông.",           tense:"present_simple"},
+    {en:["He","brushes","his","teeth","daily"],       vi:"Anh ấy đánh răng mỗi ngày.",         tense:"present_simple"},
+    {en:["She","reads","books","every","night"],      vi:"Cô ấy đọc sách mỗi tối.",            tense:"present_simple"},
+    {en:["I","love","eating","fresh","vegetables"],   vi:"Tôi thích ăn rau tươi.",              tense:"present_simple"},
+    {en:["They","play","football","on","weekends"],   vi:"Họ chơi bóng đá vào cuối tuần.",      tense:"present_simple"},
+    {en:["We","clean","our","house","weekly"],        vi:"Chúng tôi dọn nhà hàng tuần.",       tense:"present_simple"},
+    // Past Simple
+    {en:["He","visited","his","old","friend"],        vi:"Anh ấy đã thăm người bạn cũ.",       tense:"past_simple"},
+    {en:["They","watched","a","funny","movie"],       vi:"Họ đã xem một bộ phim hài.",          tense:"past_simple"},
+    {en:["She","cooked","a","delicious","meal"],      vi:"Cô ấy đã nấu một bữa ăn ngon.",      tense:"past_simple"},
+    {en:["I","bought","a","new","shirt"],             vi:"Tôi đã mua một cái áo mới.",          tense:"past_simple"},
+    {en:["We","went","to","the","beach"],             vi:"Chúng tôi đã đi biển.",               tense:"past_simple"},
+    {en:["He","called","his","dear","mother"],        vi:"Anh ấy đã gọi điện cho mẹ.",          tense:"past_simple"},
+    {en:["She","wrote","a","long","letter"],          vi:"Cô ấy đã viết một bức thư dài.",      tense:"past_simple"},
+    {en:["They","played","games","last","night"],     vi:"Họ đã chơi game tối qua.",            tense:"past_simple"},
+    {en:["I","studied","English","yesterday","morning"],vi:"Tôi đã học tiếng Anh sáng qua.",   tense:"past_simple"},
+    {en:["We","had","a","great","time"],              vi:"Chúng tôi đã có một khoảng thời gian tuyệt vời.", tense:"past_simple"},
+    {en:["She","lost","her","new","phone"],           vi:"Cô ấy đã mất điện thoại mới.",       tense:"past_simple"},
+    {en:["He","slept","very","late","yesterday"],     vi:"Anh ấy đã ngủ rất muộn hôm qua.",    tense:"past_simple"},
+    {en:["They","traveled","to","Ha","Noi"],          vi:"Họ đã đi du lịch đến Hà Nội.",       tense:"past_simple"},
+    // Present Continuous
+    {en:["She","is","reading","a","book"],            vi:"Cô ấy đang đọc một cuốn sách.",      tense:"present_continuous"},
+    {en:["They","are","playing","in","the","park"],   vi:"Họ đang chơi trong công viên.",       tense:"present_continuous"},
+    {en:["He","is","learning","the","guitar"],        vi:"Anh ấy đang học đàn guitar.",         tense:"present_continuous"},
+    {en:["I","am","cooking","some","noodles"],        vi:"Tôi đang nấu mì.",                   tense:"present_continuous"},
+    {en:["We","are","cleaning","the","house"],        vi:"Chúng tôi đang dọn nhà.",             tense:"present_continuous"},
+    {en:["She","is","wearing","a","dress"],           vi:"Cô ấy đang mặc váy.",                tense:"present_continuous"},
+    {en:["He","is","drinking","some","coffee"],       vi:"Anh ấy đang uống cà phê.",           tense:"present_continuous"},
+    {en:["They","are","studying","in","the","library"], vi:"Họ đang học trong thư viện.",       tense:"present_continuous"},
+    {en:["I","am","writing","my","homework"],         vi:"Tôi đang viết bài tập về nhà.",      tense:"present_continuous"},
+    {en:["We","are","waiting","for","the","bus"],     vi:"Chúng tôi đang đợi xe buýt.",        tense:"present_continuous"},
+    {en:["She","is","talking","on","phone"],          vi:"Cô ấy đang nói chuyện điện thoại.",  tense:"present_continuous"},
+    {en:["He","is","fixing","his","bicycle"],         vi:"Anh ấy đang sửa xe đạp.",            tense:"present_continuous"},
+    {en:["They","are","building","a","sandcastle"],   vi:"Họ đang xây lâu đài cát.",           tense:"present_continuous"},
+    // Do/Does/Did Questions (5 words)
+    {en:["Do","you","like","hot","coffee"],           vi:"Bạn có thích cà phê nóng không?",    tense:"present_simple_question"},
+    {en:["Does","she","play","the","guitar"],         vi:"Cô ấy có chơi đàn guitar không?",    tense:"present_simple_question"},
+    {en:["Did","they","watch","the","movie"],         vi:"Họ có xem bộ phim không?",           tense:"present_simple_question"},
+    {en:["Does","he","drink","green","tea"],          vi:"Anh ấy có uống trà xanh không?",     tense:"present_simple_question"},
+    {en:["Did","she","pass","the","exam"],            vi:"Cô ấy có đậu kỳ thi không?",        tense:"present_simple_question"},
+    {en:["Do","they","play","every","day"],           vi:"Họ có chơi mỗi ngày không?",        tense:"present_simple_question"},
+    {en:["Did","you","eat","the","cake"],             vi:"Bạn có ăn chiếc bánh không?",       tense:"present_simple_question"},
+    // To be Questions (5 words)
+    {en:["Are","you","happy","right","now"],          vi:"Bạn có đang vui không?",             tense:"be_question"},
+    {en:["Is","she","at","the","library"],            vi:"Cô ấy có ở thư viện không?",        tense:"be_question"},
+    {en:["Were","they","very","late","today"],        vi:"Hôm nay họ có đến muộn không?",     tense:"be_question"},
+    {en:["Is","he","still","very","tired"],           vi:"Anh ấy vẫn còn mệt không?",         tense:"be_question"},
+    {en:["Are","we","at","the","right","place"],      vi:"Chúng ta có đúng chỗ không?",       tense:"be_question"},
+    // Do not / Does not / Did not Negatives (5 words)
+    {en:["I","do","not","like","coffee"],             vi:"Tôi không thích cà phê.",            tense:"present_simple_negative"},
+    {en:["She","does","not","eat","meat"],            vi:"Cô ấy không ăn thịt.",               tense:"present_simple_negative"},
+    {en:["They","did","not","watch","TV"],            vi:"Họ đã không xem TV.",                tense:"present_simple_negative"},
+    {en:["He","does","not","play","football"],        vi:"Anh ấy không chơi bóng đá.",        tense:"present_simple_negative"},
+    {en:["We","did","not","go","out"],                vi:"Chúng tôi đã không ra ngoài.",       tense:"present_simple_negative"},
+    {en:["She","did","not","call","me"],              vi:"Cô ấy đã không gọi cho tôi.",       tense:"present_simple_negative"},
+    // To be Negatives (5 words)
+    {en:["I","am","not","very","tired"],              vi:"Tôi không mệt lắm.",                 tense:"be_negative"},
+    {en:["She","is","not","at","home"],               vi:"Cô ấy không ở nhà.",                 tense:"be_negative"},
+    {en:["They","are","not","my","friends"],          vi:"Họ không phải bạn tôi.",             tense:"be_negative"},
+    {en:["He","is","not","very","tall"],              vi:"Anh ấy không cao lắm.",              tense:"be_negative"},
+    {en:["We","are","not","going","now"],             vi:"Chúng tôi không đi bây giờ.",       tense:"be_negative"},
+    {en:["It","is","not","too","cold"],               vi:"Trời không quá lạnh.",               tense:"be_negative"},
+  ],
+
+  hard: [
+    // Present Simple
+    {en:["I","always","eat","rice","for","lunch","every","day"],          vi:"Tôi luôn ăn cơm vào bữa trưa mỗi ngày.",         tense:"present_simple"},
+    {en:["She","likes","to","study","English","in","the","morning"],      vi:"Cô ấy thích học tiếng Anh vào buổi sáng.",        tense:"present_simple"},
+    {en:["He","goes","to","school","by","bus","every","day"],             vi:"Anh ấy đi học bằng xe buýt mỗi ngày.",            tense:"present_simple"},
+    {en:["They","always","play","football","after","school","on","weekends"], vi:"Họ luôn chơi bóng đá sau giờ học vào cuối tuần.", tense:"present_simple"},
+    {en:["We","usually","have","dinner","together","at","seven","o'clock"], vi:"Chúng tôi thường ăn tối cùng nhau lúc bảy giờ.", tense:"present_simple"},
+    {en:["My","mother","always","cooks","delicious","food","for","us"],   vi:"Mẹ tôi luôn nấu những món ăn ngon cho chúng tôi.", tense:"present_simple"},
+    {en:["The","children","love","playing","in","the","park","daily"],    vi:"Bọn trẻ thích chơi trong công viên mỗi ngày.",    tense:"present_simple"},
+    {en:["She","works","hard","at","the","hospital","every","day"],       vi:"Cô ấy làm việc chăm chỉ tại bệnh viện mỗi ngày.", tense:"present_simple"},
+    {en:["He","always","helps","his","classmates","with","their","homework"], vi:"Anh ấy luôn giúp bạn cùng lớp làm bài tập.", tense:"present_simple"},
+    {en:["Our","teacher","explains","the","lesson","very","clearly","always"], vi:"Giáo viên của chúng tôi giải thích bài rất rõ ràng.", tense:"present_simple"},
+    {en:["I","often","read","books","before","going","to","sleep"],       vi:"Tôi thường đọc sách trước khi đi ngủ.",           tense:"present_simple"},
+    {en:["She","practices","piano","for","two","hours","every","afternoon"], vi:"Cô ấy tập đàn piano hai tiếng mỗi buổi chiều.", tense:"present_simple"},
+    {en:["He","takes","his","dog","for","a","walk","daily"],              vi:"Anh ấy đưa chó đi dạo mỗi ngày.",                tense:"present_simple"},
+    {en:["They","visit","their","grandparents","every","Sunday","without","fail"], vi:"Họ thăm ông bà mỗi Chủ Nhật không bao giờ bỏ.", tense:"present_simple"},
+    {en:["We","clean","our","classroom","after","every","single","lesson"], vi:"Chúng tôi dọn lớp học sau mỗi buổi học.",      tense:"present_simple"},
+    {en:["The","market","opens","early","in","the","cool","morning"],     vi:"Chợ mở cửa sớm vào buổi sáng mát mẻ.",           tense:"present_simple"},
+    {en:["My","father","reads","the","newspaper","every","single","morning"], vi:"Ba tôi đọc báo mỗi buổi sáng.",              tense:"present_simple"},
+    // Past Simple
+    {en:["She","visited","her","best","friend","last","long","weekend"],  vi:"Cô ấy đã thăm người bạn thân vào cuối tuần dài trước.", tense:"past_simple"},
+    {en:["They","watched","an","exciting","movie","at","the","cinema"],   vi:"Họ đã xem một bộ phim hấp dẫn ở rạp chiếu phim.", tense:"past_simple"},
+    {en:["He","cooked","a","wonderful","dinner","for","the","family"],    vi:"Anh ấy đã nấu bữa tối tuyệt vời cho cả gia đình.", tense:"past_simple"},
+    {en:["I","bought","a","beautiful","dress","at","the","mall"],         vi:"Tôi đã mua một chiếc váy đẹp ở trung tâm thương mại.", tense:"past_simple"},
+    {en:["We","traveled","to","Da","Nang","city","last","summer"],        vi:"Chúng tôi đã đi du lịch thành phố Đà Nẵng mùa hè trước.", tense:"past_simple"},
+    {en:["She","wrote","a","very","long","letter","to","him"],            vi:"Cô ấy đã viết một bức thư rất dài cho anh ấy.",   tense:"past_simple"},
+    {en:["He","played","football","with","his","friends","all","day"],    vi:"Anh ấy đã chơi bóng đá với bạn bè cả ngày.",     tense:"past_simple"},
+    {en:["They","studied","hard","for","the","English","final","exam"],   vi:"Họ đã học chăm chỉ cho kỳ thi cuối môn tiếng Anh.", tense:"past_simple"},
+    {en:["I","helped","my","mother","cook","a","big","dinner"],           vi:"Tôi đã giúp mẹ nấu một bữa tối thịnh soạn.",     tense:"past_simple"},
+    {en:["We","cleaned","the","whole","house","together","last","Saturday"], vi:"Chúng tôi đã dọn cả ngôi nhà cùng nhau thứ Bảy trước.", tense:"past_simple"},
+    {en:["She","sang","a","beautiful","song","at","the","concert"],       vi:"Cô ấy đã hát một bài hát đẹp tại buổi hòa nhạc.", tense:"past_simple"},
+    {en:["He","repaired","his","old","bicycle","by","himself","yesterday"], vi:"Anh ấy đã tự sửa xe đạp cũ của mình hôm qua.", tense:"past_simple"},
+    {en:["They","had","a","great","picnic","in","the","park"],            vi:"Họ đã có một buổi dã ngoại tuyệt vời trong công viên.", tense:"past_simple"},
+    {en:["I","called","my","grandmother","on","her","special","birthday"], vi:"Tôi đã gọi điện cho bà vào sinh nhật đặc biệt của bà.", tense:"past_simple"},
+    {en:["We","lost","the","match","but","played","very","well"],         vi:"Chúng tôi đã thua trận nhưng chơi rất tốt.",     tense:"past_simple"},
+    {en:["She","passed","her","driving","test","on","the","weekend"],     vi:"Cô ấy đã đậu bài thi lái xe vào cuối tuần.",     tense:"past_simple"},
+    {en:["He","woke","up","early","and","went","for","a","run"],          vi:"Anh ấy đã dậy sớm và đi chạy bộ.",               tense:"past_simple"},
+    // Present Continuous
+    {en:["She","is","reading","an","interesting","book","right","now"],   vi:"Cô ấy đang đọc một cuốn sách thú vị ngay lúc này.", tense:"present_continuous"},
+    {en:["They","are","playing","football","in","the","big","park"],      vi:"Họ đang chơi bóng đá trong công viên lớn.",      tense:"present_continuous"},
+    {en:["He","is","learning","to","play","the","acoustic","guitar"],     vi:"Anh ấy đang học chơi đàn guitar.",               tense:"present_continuous"},
+    {en:["I","am","cooking","a","delicious","meal","for","everyone"],     vi:"Tôi đang nấu một bữa ăn ngon cho mọi người.",    tense:"present_continuous"},
+    {en:["We","are","cleaning","our","classroom","after","the","lesson"], vi:"Chúng tôi đang dọn lớp học sau giờ học.",        tense:"present_continuous"},
+    {en:["She","is","wearing","a","beautiful","red","traditional","dress"], vi:"Cô ấy đang mặc một chiếc áo dài đỏ truyền thống.", tense:"present_continuous"},
+    {en:["He","is","drinking","a","hot","cup","of","coffee"],             vi:"Anh ấy đang uống một tách cà phê nóng.",         tense:"present_continuous"},
+    {en:["They","are","studying","hard","for","their","important","exams"], vi:"Họ đang học chăm chỉ cho các kỳ thi quan trọng.", tense:"present_continuous"},
+    {en:["I","am","writing","a","long","letter","to","my","friend"],      vi:"Tôi đang viết một bức thư dài cho bạn tôi.",     tense:"present_continuous"},
+    {en:["We","are","waiting","for","the","school","bus","right","now"],  vi:"Chúng tôi đang đợi xe buýt trường ngay lúc này.", tense:"present_continuous"},
+    {en:["She","is","practicing","her","English","speaking","every","day"], vi:"Cô ấy đang luyện nói tiếng Anh mỗi ngày.",   tense:"present_continuous"},
+    {en:["He","is","building","a","wooden","house","in","the","countryside"], vi:"Anh ấy đang xây một ngôi nhà gỗ ở nông thôn.", tense:"present_continuous"},
+    {en:["They","are","traveling","across","the","beautiful","green","country"], vi:"Họ đang du lịch khắp đất nước xanh đẹp.", tense:"present_continuous"},
+    {en:["I","am","helping","my","little","sister","with","homework"],    vi:"Tôi đang giúp em gái nhỏ làm bài tập.",         tense:"present_continuous"},
+    {en:["We","are","having","a","great","time","at","the","beach"],      vi:"Chúng tôi đang có khoảng thời gian tuyệt vời ở biển.", tense:"present_continuous"},
+    {en:["She","is","preparing","a","special","surprise","for","him"],    vi:"Cô ấy đang chuẩn bị một bất ngờ đặc biệt cho anh ấy.", tense:"present_continuous"},
+    {en:["He","is","taking","photos","of","the","beautiful","sunset"],    vi:"Anh ấy đang chụp ảnh hoàng hôn đẹp.",           tense:"present_continuous"},
+    // Do/Does/Did Questions (8 words)
+    {en:["Do","you","usually","drink","coffee","in","the","morning"],     vi:"Bạn có thường uống cà phê vào buổi sáng không?", tense:"present_simple_question"},
+    {en:["Does","she","always","study","English","on","the","weekend"],   vi:"Cô ấy có luôn học tiếng Anh vào cuối tuần không?", tense:"present_simple_question"},
+    {en:["Did","they","watch","the","exciting","movie","last","night"],   vi:"Họ có xem bộ phim hấp dẫn tối qua không?",    tense:"present_simple_question"},
+    {en:["Does","he","go","to","the","gym","every","day"],               vi:"Anh ấy có đi tập gym mỗi ngày không?",          tense:"present_simple_question"},
+    {en:["Did","she","finish","all","of","her","school","homework"],     vi:"Cô ấy có làm xong hết bài tập về nhà không?",  tense:"present_simple_question"},
+    {en:["Do","the","students","always","listen","to","the","teacher"],  vi:"Học sinh có luôn lắng nghe giáo viên không?",   tense:"present_simple_question"},
+    {en:["Did","your","family","travel","to","Ha","Noi","recently"],     vi:"Gia đình bạn có đi Hà Nội gần đây không?",     tense:"present_simple_question"},
+    // To be Questions (8 words)
+    {en:["Are","you","happy","with","your","new","English","teacher"],   vi:"Bạn có hài lòng với giáo viên tiếng Anh mới không?", tense:"be_question"},
+    {en:["Is","she","still","studying","at","the","big","library"],      vi:"Cô ấy vẫn đang học ở thư viện lớn không?",    tense:"be_question"},
+    {en:["Were","they","late","for","the","important","school","meeting"],vi:"Họ có đến muộn cho cuộc họp trường quan trọng không?", tense:"be_question"},
+    {en:["Is","he","ready","to","start","his","new","job"],              vi:"Anh ấy đã sẵn sàng bắt đầu công việc mới chưa?", tense:"be_question"},
+    {en:["Are","all","the","students","sitting","in","the","classroom"], vi:"Tất cả học sinh có đang ngồi trong lớp không?", tense:"be_question"},
+    {en:["Was","the","food","at","the","new","restaurant","delicious"],  vi:"Thức ăn ở nhà hàng mới có ngon không?",        tense:"be_question"},
+    {en:["Are","your","parents","proud","of","your","English","grades"], vi:"Bố mẹ có tự hào về điểm tiếng Anh của bạn không?", tense:"be_question"},
+    // Do not / Does not / Did not Negatives (8 words)
+    {en:["I","do","not","know","how","to","play","guitar"],              vi:"Tôi không biết chơi đàn guitar.",               tense:"present_simple_negative"},
+    {en:["She","does","not","like","to","eat","spicy","food"],           vi:"Cô ấy không thích ăn đồ ăn cay.",              tense:"present_simple_negative"},
+    {en:["They","did","not","finish","their","homework","last","night"], vi:"Họ đã không làm xong bài tập tối qua.",        tense:"present_simple_negative"},
+    {en:["He","does","not","go","to","school","on","Sunday"],            vi:"Anh ấy không đi học vào Chủ Nhật.",            tense:"present_simple_negative"},
+    {en:["We","did","not","see","the","movie","last","weekend"],         vi:"Chúng tôi đã không xem phim vào cuối tuần trước.", tense:"present_simple_negative"},
+    {en:["She","does","not","wake","up","early","every","day"],          vi:"Cô ấy không thức dậy sớm mỗi ngày.",           tense:"present_simple_negative"},
+    {en:["I","did","not","bring","my","book","to","class"],             vi:"Tôi đã không mang sách đến lớp.",              tense:"present_simple_negative"},
+    // To be Negatives (8 words)
+    {en:["I","am","not","ready","to","take","the","exam"],               vi:"Tôi chưa sẵn sàng để làm bài kiểm tra.",       tense:"be_negative"},
+    {en:["She","is","not","happy","with","her","exam","result"],         vi:"Cô ấy không hài lòng với kết quả thi của mình.", tense:"be_negative"},
+    {en:["They","are","not","playing","in","the","park","today"],        vi:"Hôm nay họ không chơi trong công viên.",       tense:"be_negative"},
+    {en:["He","is","not","going","to","school","this","morning"],        vi:"Sáng nay anh ấy không đến trường.",            tense:"be_negative"},
+    {en:["We","are","not","having","dinner","at","home","tonight"],      vi:"Tối nay chúng tôi không ăn tối ở nhà.",        tense:"be_negative"},
+    {en:["The","students","are","not","listening","to","the","teacher"], vi:"Các học sinh không lắng nghe giáo viên.",      tense:"be_negative"},
+    {en:["She","was","not","at","the","library","yesterday","afternoon"],vi:"Cô ấy không ở thư viện chiều hôm qua.",       tense:"be_negative"},
+  ]
+};
+
+// ─── FEATURE 3: TEXT-TO-SPEECH ────────────────────────────────────────────────
+// Speak an English word using the Web Speech API (works on Android Chrome)
+function speakWord(word) {
+  if (!window.speechSynthesis) return;
+  // Cancel any in-progress speech immediately to avoid overlap
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(word);
+  utt.lang = 'en-US';
+  utt.rate = 0.9;
+  utt.pitch = 1;
+  // Prefer an English voice if available
+  const voices = window.speechSynthesis.getVoices();
+  const enVoice = voices.find(v => v.lang === 'en-US') ||
+                  voices.find(v => v.lang === 'en-GB') ||
+                  voices.find(v => v.lang.startsWith('en'));
+  if (enVoice) utt.voice = enVoice;
+  window.speechSynthesis.speak(utt);
+}
+
+// ─── FISHER-YATES SHUFFLE ─────────────────────────────────────────────────────
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let currentSentenceData = {};
+let userProgress = [];
+let score = 0;
+let activeCard = null;
+let startParent = null;
+let offset = { x: 0, y: 0 };
+let activePointerId = null; // FEATURE 1: track pointer for Android
+let sentenceQueues = { easy: [], medium: [], hard: [] }; // non-repeating queues per difficulty
+
+// ─── NEXT LEVEL ───────────────────────────────────────────────────────────────
+function nextLevel() {
+  // FEATURE 2: disable the Next button until sentence is solved
+  document.getElementById('btn-next').disabled = true;
+
+  const diff = document.getElementById('difficulty').value;
+  const currentLib = library[diff];
+  if (sentenceQueues[diff].length === 0) {
+    sentenceQueues[diff] = shuffle(currentLib);
+  }
+  currentSentenceData = sentenceQueues[diff].pop();
+
+  // Translation
+  document.getElementById('translation-text').textContent = '📖 Dịch: ' + currentSentenceData.vi;
+
+  // Tense label
+  const tenseEl = document.getElementById('tense-label');
+  const tenseKey = currentSentenceData.tense;
+  tenseEl.textContent = TENSE_LABELS[tenseKey] || tenseKey;
+  tenseEl.className = 'info-tense tense-' + tenseKey;
+
+  // Hint reset
+  const hintEl = document.getElementById('hint-text');
+  hintEl.textContent = 'Kéo các từ vào đúng vị trí!';
+  hintEl.className = 'info-hint';
+
+  userProgress = new Array(currentSentenceData.en.length).fill(null);
+
+  const dropZone = document.getElementById('drop-zone');
+  const pool = document.getElementById('pool');
+  dropZone.innerHTML = '';
+  pool.innerHTML = '';
+
+  // Build slots
+  currentSentenceData.en.forEach((_, index) => {
+    const slot = document.createElement('div');
+    slot.className = 'word-slot';
+    slot.dataset.index = index;
+    dropZone.appendChild(slot);
+  });
+
+  // Build word cards (shuffled)
+  shuffle(currentSentenceData.en).forEach(word => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.textContent = word;
+    card.addEventListener('pointerdown', onStart);
+    pool.appendChild(card);
+  });
+}
+
+// ─── DRAG SYSTEM ─────────────────────────────────────────────────────────────
+function onStart(e) {
+  if (e.pointerType === 'touch') e.preventDefault();
+  activeCard = e.currentTarget;
+  startParent = activeCard.parentElement;
+  activePointerId = e.pointerId; // FEATURE 1: capture pointer for Android
+
+  if (startParent.classList.contains('word-slot')) {
+    userProgress[parseInt(startParent.dataset.index)] = null;
+    startParent.classList.remove('filled');
+  }
+
+  sfx.drag.currentTime = 0;
+  sfx.drag.play().catch(() => {});
+
+  // FEATURE 3: speak the word being dragged
+  speakWord(activeCard.textContent.trim());
+
+  const rect = activeCard.getBoundingClientRect();
+  offset = { x: e.pageX - rect.left, y: e.pageY - rect.top };
+  activeCard.classList.add('dragging');
+  activeCard.style.width = rect.width + 'px';
+  // FEATURE 1: capture pointer so Android doesn't lose track mid-drag
+  activeCard.setPointerCapture(activePointerId);
+  moveAt(e.pageX, e.pageY);
+
+  document.addEventListener('pointermove', onMove, { passive: false });
+  document.addEventListener('pointerup', onEnd);
+}
+
+function moveAt(x, y) {
+  if (!activeCard) return;
+  activeCard.style.left = (x - offset.x) + 'px';
+  activeCard.style.top  = (y - offset.y) + 'px';
+}
+
+function onMove(e) {
+  if (activeCard) { e.preventDefault(); moveAt(e.pageX, e.pageY); }
+}
+
+function onEnd(e) {
+  if (!activeCard) return;
+
+  const slots = document.querySelectorAll('.word-slot');
+  const pool  = document.getElementById('pool');
+  const poolRect = pool.getBoundingClientRect();
+  let placed = false;
+
+  slots.forEach(slot => {
+    const r = slot.getBoundingClientRect();
+    if (
+      e.clientX > r.left && e.clientX < r.right &&
+      e.clientY > r.top  && e.clientY < r.bottom
+    ) {
+      const idx = parseInt(slot.dataset.index);
+      if (!userProgress[idx]) {
+        slot.appendChild(activeCard);
+        slot.classList.add('filled');
+        userProgress[idx] = activeCard.textContent;
+        placed = true;
+        sfx.correct.currentTime = 0;
+        sfx.correct.play().catch(() => {});
+        checkWin();
+      }
+    }
+  });
+
+  if (!placed && e.clientY > poolRect.top) {
+    pool.appendChild(activeCard);
+    placed = true;
+  }
+  if (!placed) startParent.appendChild(activeCard);
+
+  activeCard.classList.remove('dragging');
+  activeCard.style = '';
+  activeCard = null;
+  activePointerId = null;
+  document.removeEventListener('pointermove', onMove);
+  document.removeEventListener('pointerup', onEnd);
+}
+
+// ─── CHECK WIN ────────────────────────────────────────────────────────────────
+function checkWin() {
+  if (userProgress.every((val, i) => val === currentSentenceData.en[i])) {
+    score += 50;
+    document.getElementById('score').textContent = score;
+
+    confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+
+    const hintEl = document.getElementById('hint-text');
+    hintEl.textContent = '🎉 Chính xác! Tuyệt vời!';
+    hintEl.className = 'info-hint success';
+
+    document.querySelectorAll('.word-slot').forEach(s => s.classList.add('correct-blink'));
+
+    sfx.correct.currentTime = 0;
+    sfx.correct.play().catch(() => {});
+
+    // FEATURE 2: unlock the Next button once the sentence is correct
+    document.getElementById('btn-next').disabled = false;
+  }
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+// FEATURE 3: pre-load voices on page start (required by some Android Chrome versions)
+if (window.speechSynthesis) {
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.addEventListener('voiceschanged', () => {
+    window.speechSynthesis.getVoices(); // cache voices once loaded
+  });
+}
+nextLevel();
+</script>
+</body>
+</html>
