@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -294,6 +293,56 @@
       background: #dbeafe;
       color: #1e40af;
     }
+
+    .tense-present_perfect {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .tense-present_perfect_continuous {
+      background: #a7f3d0;
+      color: #064e3b;
+    }
+
+    .tense-past_continuous {
+      background: #fef9c3;
+      color: #854d0e;
+    }
+
+    .tense-past_perfect {
+      background: #fde68a;
+      color: #78350f;
+    }
+
+    .tense-past_perfect_continuous {
+      background: #fed7aa;
+      color: #7c2d12;
+    }
+
+    .tense-future_simple {
+      background: #e0e7ff;
+      color: #3730a3;
+    }
+
+    .tense-future_going_to {
+      background: #c7d2fe;
+      color: #312e81;
+    }
+
+    .tense-future_continuous {
+      background: #ddd6fe;
+      color: #4c1d95;
+    }
+
+    .tense-future_perfect {
+      background: #ede9fe;
+      color: #6b21a8;
+    }
+
+    .tense-future_perfect_continuous {
+      background: #f3e8ff;
+      color: #7e22ce;
+    }
   </style>
 </head>
 
@@ -315,6 +364,16 @@
       <option value="present_simple">Present Simple</option>
       <option value="past_simple">Past Simple</option>
       <option value="present_continuous">Present Continuous</option>
+      <option value="present_perfect">Present Perfect</option>
+      <option value="present_perfect_continuous">Present Perfect Continuous</option>
+      <option value="past_continuous">Past Continuous</option>
+      <option value="past_perfect">Past Perfect</option>
+      <option value="past_perfect_continuous">Past Perfect Continuous</option>
+      <option value="future_simple">Future Simple (Will)</option>
+      <option value="future_going_to">Future (Going To)</option>
+      <option value="future_continuous">Future Continuous</option>
+      <option value="future_perfect">Future Perfect</option>
+      <option value="future_perfect_continuous">Future Perfect Continuous</option>
       <option value="question">Questions</option>
       <option value="negative">Negatives</option>
     </select>
@@ -346,7 +405,17 @@
     const TENSE_LABELS = {
       present_simple: 'Thì: Present Simple',
       past_simple: 'Thì: Past Simple',
-      present_continuous: 'Thì: Present Continuous'
+      present_continuous: 'Thì: Present Continuous',
+      present_perfect: 'Thì: Present Perfect',
+      present_perfect_continuous: 'Thì: Present Perfect Continuous',
+      past_continuous: 'Thì: Past Continuous',
+      past_perfect: 'Thì: Past Perfect',
+      past_perfect_continuous: 'Thì: Past Perfect Continuous',
+      future_simple: 'Thì: Future Simple (Will)',
+      future_going_to: 'Thì: Future (Be Going To)',
+      future_continuous: 'Thì: Future Continuous',
+      future_perfect: 'Thì: Future Perfect',
+      future_perfect_continuous: 'Thì: Future Perfect Continuous'
     };
 
     // ─── SENTENCE LIBRARY ────────────────────────────────────────────────────────
@@ -469,12 +538,72 @@
         { en: ["They", "did", "not", "come"], vi: "Họ đã không đến.", tense: "present_simple_negative" },
         { en: ["He", "does", "not", "run"], vi: "Anh ấy không chạy.", tense: "present_simple_negative" },
         { en: ["We", "did", "not", "go"], vi: "Chúng tôi đã không đi.", tense: "present_simple_negative" },
-        // To be Negatives (4 words)
+        // To be — be_negative (4 words)
         { en: ["I", "am", "not", "tired"], vi: "Tôi không mệt.", tense: "be_negative" },
         { en: ["She", "is", "not", "here"], vi: "Cô ấy không ở đây.", tense: "be_negative" },
         { en: ["They", "are", "not", "ready"], vi: "Họ chưa sẵn sàng.", tense: "be_negative" },
         { en: ["He", "is", "not", "happy"], vi: "Anh ấy không vui.", tense: "be_negative" },
         { en: ["We", "are", "not", "late"], vi: "Chúng tôi không muộn.", tense: "be_negative" },
+        // Present Perfect - Easy (4 words)
+        { en: ["I", "have", "finished", "lunch"], vi: "Tôi đã ăn xong bữa trưa.", tense: "present_perfect" },
+        { en: ["She", "has", "read", "it"], vi: "Cô ấy đã đọc nó rồi.", tense: "present_perfect" },
+        { en: ["He", "has", "come", "home"], vi: "Anh ấy đã về nhà.", tense: "present_perfect" },
+        { en: ["They", "have", "eaten", "dinner"], vi: "Họ đã ăn tối rồi.", tense: "present_perfect" },
+        { en: ["We", "have", "done", "homework"], vi: "Chúng tôi đã làm bài xong.", tense: "present_perfect" },
+        { en: ["She", "has", "seen", "him"], vi: "Cô ấy đã gặp anh ấy rồi.", tense: "present_perfect" },
+        { en: ["I", "have", "lost", "keys"], vi: "Tôi đã mất chìa khóa.", tense: "present_perfect" },
+        { en: ["He", "has", "bought", "shoes"], vi: "Anh ấy đã mua giày.", tense: "present_perfect" },
+        // Present Perfect Continuous - Easy (4 words)
+        { en: ["I", "have", "been", "running"], vi: "Tôi đã đang chạy bộ.", tense: "present_perfect_continuous" },
+        { en: ["She", "has", "been", "studying"], vi: "Cô ấy đã đang học.", tense: "present_perfect_continuous" },
+        { en: ["He", "has", "been", "cooking"], vi: "Anh ấy đã đang nấu ăn.", tense: "present_perfect_continuous" },
+        { en: ["They", "have", "been", "playing"], vi: "Họ đã đang chơi.", tense: "present_perfect_continuous" },
+        { en: ["We", "have", "been", "waiting"], vi: "Chúng tôi đã đang chờ đợi.", tense: "present_perfect_continuous" },
+        // Past Continuous - Easy (4 words)
+        { en: ["She", "was", "reading", "quietly"], vi: "Cô ấy đang đọc sách im lặng.", tense: "past_continuous" },
+        { en: ["He", "was", "eating", "lunch"], vi: "Anh ấy đang ăn trưa.", tense: "past_continuous" },
+        { en: ["They", "were", "playing", "outside"], vi: "Họ đang chơi bên ngoài.", tense: "past_continuous" },
+        { en: ["I", "was", "sleeping", "soundly"], vi: "Tôi đang ngủ say.", tense: "past_continuous" },
+        { en: ["We", "were", "watching", "TV"], vi: "Chúng tôi đang xem TV.", tense: "past_continuous" },
+        // Past Perfect - Easy (4 words)
+        { en: ["She", "had", "eaten", "already"], vi: "Cô ấy đã ăn rồi.", tense: "past_perfect" },
+        { en: ["He", "had", "gone", "home"], vi: "Anh ấy đã về nhà rồi.", tense: "past_perfect" },
+        { en: ["They", "had", "left", "early"], vi: "Họ đã rời đi sớm rồi.", tense: "past_perfect" },
+        { en: ["I", "had", "finished", "work"], vi: "Tôi đã xong việc rồi.", tense: "past_perfect" },
+        { en: ["We", "had", "met", "before"], vi: "Chúng tôi đã gặp nhau trước.", tense: "past_perfect" },
+        // Past Perfect Continuous - Easy (4 words)
+        { en: ["She", "had", "been", "crying"], vi: "Cô ấy đã đang khóc.", tense: "past_perfect_continuous" },
+        { en: ["He", "had", "been", "working"], vi: "Anh ấy đã đang làm việc.", tense: "past_perfect_continuous" },
+        { en: ["They", "had", "been", "running"], vi: "Họ đã đang chạy bộ.", tense: "past_perfect_continuous" },
+        { en: ["I", "had", "been", "waiting"], vi: "Tôi đã đang chờ đợi.", tense: "past_perfect_continuous" },
+        // Future Simple - Easy (4 words)
+        { en: ["I", "will", "go", "tomorrow"], vi: "Tôi sẽ đi vào ngày mai.", tense: "future_simple" },
+        { en: ["She", "will", "call", "soon"], vi: "Cô ấy sẽ gọi sớm thôi.", tense: "future_simple" },
+        { en: ["He", "will", "come", "back"], vi: "Anh ấy sẽ trở lại.", tense: "future_simple" },
+        { en: ["They", "will", "help", "us"], vi: "Họ sẽ giúp chúng ta.", tense: "future_simple" },
+        { en: ["We", "will", "win", "today"], vi: "Hôm nay chúng ta sẽ thắng.", tense: "future_simple" },
+        { en: ["It", "will", "rain", "soon"], vi: "Trời sẽ mưa sớm thôi.", tense: "future_simple" },
+        { en: ["She", "will", "cook", "dinner"], vi: "Cô ấy sẽ nấu bữa tối.", tense: "future_simple" },
+        // Future Going To - Easy (4 words)
+        { en: ["I", "am", "going", "to"], vi: "Tôi sắp làm điều đó.", tense: "future_going_to" },
+        { en: ["She", "is", "going", "to"], vi: "Cô ấy sắp đi.", tense: "future_going_to" },
+        { en: ["They", "are", "going", "to"], vi: "Họ sắp bắt đầu.", tense: "future_going_to" },
+        { en: ["He", "is", "going", "to"], vi: "Anh ấy sắp ăn.", tense: "future_going_to" },
+        { en: ["We", "are", "going", "to"], vi: "Chúng tôi sắp đi.", tense: "future_going_to" },
+        // Future Continuous - Easy (4 words)
+        { en: ["I", "will", "be", "working"], vi: "Tôi sẽ đang làm việc.", tense: "future_continuous" },
+        { en: ["She", "will", "be", "studying"], vi: "Cô ấy sẽ đang học bài.", tense: "future_continuous" },
+        { en: ["He", "will", "be", "sleeping"], vi: "Anh ấy sẽ đang ngủ.", tense: "future_continuous" },
+        { en: ["They", "will", "be", "playing"], vi: "Họ sẽ đang chơi.", tense: "future_continuous" },
+        // Future Perfect - Easy (4 words)
+        { en: ["I", "will", "have", "done"], vi: "Tôi sẽ đã làm xong.", tense: "future_perfect" },
+        { en: ["She", "will", "have", "left"], vi: "Cô ấy sẽ đã rời đi.", tense: "future_perfect" },
+        { en: ["He", "will", "have", "eaten"], vi: "Anh ấy sẽ đã ăn xong.", tense: "future_perfect" },
+        { en: ["They", "will", "have", "finished"], vi: "Họ sẽ đã hoàn thành xong.", tense: "future_perfect" },
+        // Future Perfect Continuous - Easy (4 words)
+        { en: ["I", "will", "have", "been"], vi: "Tôi sẽ đã đang làm việc.", tense: "future_perfect_continuous" },
+        { en: ["She", "will", "have", "been"], vi: "Cô ấy sẽ đã đang học.", tense: "future_perfect_continuous" },
+        { en: ["They", "will", "have", "been"], vi: "Họ sẽ đã đang chạy bộ.", tense: "future_perfect_continuous" },
         // To be — Present Simple Positive (4 words)
         { en: ["I", "am", "very", "happy"], vi: "Tôi rất vui.", tense: "present_simple" },
         { en: ["She", "is", "very", "kind"], vi: "Cô ấy rất tốt bụng.", tense: "present_simple" },
@@ -617,13 +746,76 @@
         { en: ["He", "does", "not", "play", "football"], vi: "Anh ấy không chơi bóng đá.", tense: "present_simple_negative" },
         { en: ["We", "did", "not", "go", "out"], vi: "Chúng tôi đã không ra ngoài.", tense: "present_simple_negative" },
         { en: ["She", "did", "not", "call", "me"], vi: "Cô ấy đã không gọi cho tôi.", tense: "present_simple_negative" },
-        // To be Negatives (5 words)
+        // To be — be_negative (5 words)
         { en: ["I", "am", "not", "very", "tired"], vi: "Tôi không mệt lắm.", tense: "be_negative" },
         { en: ["She", "is", "not", "at", "home"], vi: "Cô ấy không ở nhà.", tense: "be_negative" },
         { en: ["They", "are", "not", "my", "friends"], vi: "Họ không phải bạn tôi.", tense: "be_negative" },
         { en: ["He", "is", "not", "very", "tall"], vi: "Anh ấy không cao lắm.", tense: "be_negative" },
         { en: ["We", "are", "not", "going", "now"], vi: "Chúng tôi không đi bây giờ.", tense: "be_negative" },
         { en: ["It", "is", "not", "too", "cold"], vi: "Trời không quá lạnh.", tense: "be_negative" },
+        // Present Perfect - Medium (5-6 words)
+        { en: ["I", "have", "already", "eaten", "lunch"], vi: "Tôi đã ăn trưa rồi.", tense: "present_perfect" },
+        { en: ["She", "has", "just", "finished", "school"], vi: "Cô ấy vừa xong giờ học.", tense: "present_perfect" },
+        { en: ["He", "has", "never", "seen", "snow"], vi: "Anh ấy chưa bao giờ thấy tuyết.", tense: "present_perfect" },
+        { en: ["They", "have", "lived", "here", "long"], vi: "Họ đã sống ở đây lâu rồi.", tense: "present_perfect" },
+        { en: ["We", "have", "visited", "that", "museum"], vi: "Chúng tôi đã thăm bảo tàng đó rồi.", tense: "present_perfect" },
+        { en: ["She", "has", "written", "three", "books"], vi: "Cô ấy đã viết ba cuốn sách.", tense: "present_perfect" },
+        { en: ["Have", "you", "ever", "tried", "sushi"], vi: "Bạn đã thử sushi bao giờ chưa?", tense: "present_perfect" },
+        { en: ["He", "has", "not", "come", "yet"], vi: "Anh ấy vẫn chưa đến.", tense: "present_perfect" },
+        // Present Perfect Continuous - Medium (5-6 words)
+        { en: ["She", "has", "been", "singing", "beautifully"], vi: "Cô ấy đã đang hát rất hay.", tense: "present_perfect_continuous" },
+        { en: ["He", "has", "been", "cooking", "dinner"], vi: "Anh ấy đã đang nấu bữa tối.", tense: "present_perfect_continuous" },
+        { en: ["They", "have", "been", "playing", "outside"], vi: "Họ đã đang chơi bên ngoài.", tense: "present_perfect_continuous" },
+        { en: ["I", "have", "been", "learning", "English"], vi: "Tôi đã đang học tiếng Anh.", tense: "present_perfect_continuous" },
+        { en: ["We", "have", "been", "waiting", "long"], vi: "Chúng tôi đã đang chờ lâu rồi.", tense: "present_perfect_continuous" },
+        // Past Continuous - Medium (5-6 words)
+        { en: ["She", "was", "reading", "a", "book"], vi: "Cô ấy đang đọc một cuốn sách.", tense: "past_continuous" },
+        { en: ["He", "was", "playing", "the", "guitar"], vi: "Anh ấy đang chơi đàn guitar.", tense: "past_continuous" },
+        { en: ["They", "were", "watching", "the", "movie"], vi: "Họ đang xem bộ phim đó.", tense: "past_continuous" },
+        { en: ["I", "was", "doing", "my", "homework"], vi: "Tôi đang làm bài tập về nhà.", tense: "past_continuous" },
+        { en: ["We", "were", "having", "lunch", "together"], vi: "Chúng tôi đang ăn trưa cùng nhau.", tense: "past_continuous" },
+        { en: ["Was", "she", "sleeping", "at", "noon"], vi: "Cô ấy có đang ngủ lúc trưa không?", tense: "past_continuous" },
+        // Past Perfect - Medium (5-6 words)
+        { en: ["She", "had", "already", "eaten", "dinner"], vi: "Cô ấy đã ăn tối rồi.", tense: "past_perfect" },
+        { en: ["He", "had", "never", "seen", "that"], vi: "Anh ấy chưa bao giờ thấy điều đó.", tense: "past_perfect" },
+        { en: ["They", "had", "left", "before", "we"], vi: "Họ đã rời đi trước khi chúng tôi đến.", tense: "past_perfect" },
+        { en: ["I", "had", "finished", "my", "homework"], vi: "Tôi đã xong bài tập về nhà rồi.", tense: "past_perfect" },
+        { en: ["We", "had", "met", "them", "before"], vi: "Chúng tôi đã gặp họ trước đó rồi.", tense: "past_perfect" },
+        { en: ["Had", "you", "eaten", "before", "class"], vi: "Bạn có ăn trước khi học không?", tense: "past_perfect" },
+        // Past Perfect Continuous - Medium (5-6 words)
+        { en: ["She", "had", "been", "waiting", "long"], vi: "Cô ấy đã đang chờ rất lâu.", tense: "past_perfect_continuous" },
+        { en: ["He", "had", "been", "running", "daily"], vi: "Anh ấy đã đang chạy bộ mỗi ngày.", tense: "past_perfect_continuous" },
+        { en: ["They", "had", "been", "playing", "outside"], vi: "Họ đã đang chơi bên ngoài.", tense: "past_perfect_continuous" },
+        { en: ["I", "had", "been", "studying", "hard"], vi: "Tôi đã đang học rất chăm chỉ.", tense: "past_perfect_continuous" },
+        // Future Simple - Medium (5-6 words)
+        { en: ["I", "will", "call", "you", "later"], vi: "Tôi sẽ gọi cho bạn sau.", tense: "future_simple" },
+        { en: ["She", "will", "visit", "us", "tomorrow"], vi: "Cô ấy sẽ thăm chúng ta ngày mai.", tense: "future_simple" },
+        { en: ["He", "will", "study", "very", "hard"], vi: "Anh ấy sẽ học rất chăm chỉ.", tense: "future_simple" },
+        { en: ["They", "will", "win", "the", "match"], vi: "Họ sẽ thắng trận đấu đó.", tense: "future_simple" },
+        { en: ["We", "will", "have", "a", "party"], vi: "Chúng ta sẽ tổ chức một bữa tiệc.", tense: "future_simple" },
+        { en: ["Will", "you", "come", "with", "me"], vi: "Bạn có đến cùng tôi không?", tense: "future_simple" },
+        { en: ["She", "will", "not", "be", "late"], vi: "Cô ấy sẽ không đến muộn.", tense: "future_simple" },
+        // Future Going To - Medium (5-6 words)
+        { en: ["I", "am", "going", "to", "cook"], vi: "Tôi sắp nấu ăn.", tense: "future_going_to" },
+        { en: ["She", "is", "going", "to", "sing"], vi: "Cô ấy sắp hát.", tense: "future_going_to" },
+        { en: ["He", "is", "going", "to", "study"], vi: "Anh ấy sắp học bài.", tense: "future_going_to" },
+        { en: ["They", "are", "going", "to", "travel"], vi: "Họ sắp đi du lịch.", tense: "future_going_to" },
+        { en: ["We", "are", "going", "to", "win"], vi: "Chúng ta sắp thắng rồi.", tense: "future_going_to" },
+        { en: ["It", "is", "going", "to", "rain"], vi: "Trời sắp mưa rồi.", tense: "future_going_to" },
+        // Future Continuous - Medium (5-6 words)
+        { en: ["I", "will", "be", "studying", "tonight"], vi: "Tối nay tôi sẽ đang học bài.", tense: "future_continuous" },
+        { en: ["She", "will", "be", "working", "tomorrow"], vi: "Ngày mai cô ấy sẽ đang làm việc.", tense: "future_continuous" },
+        { en: ["He", "will", "be", "traveling", "soon"], vi: "Sớm thôi anh ấy sẽ đang đi du lịch.", tense: "future_continuous" },
+        { en: ["They", "will", "be", "playing", "outside"], vi: "Họ sẽ đang chơi bên ngoài.", tense: "future_continuous" },
+        // Future Perfect - Medium (5-6 words)
+        { en: ["I", "will", "have", "finished", "work"], vi: "Tôi sẽ đã xong việc rồi.", tense: "future_perfect" },
+        { en: ["She", "will", "have", "cooked", "dinner"], vi: "Cô ấy sẽ đã nấu xong bữa tối.", tense: "future_perfect" },
+        { en: ["He", "will", "have", "arrived", "home"], vi: "Anh ấy sẽ đã về đến nhà.", tense: "future_perfect" },
+        { en: ["They", "will", "have", "cleaned", "everything"], vi: "Họ sẽ đã dọn dẹp xong tất cả.", tense: "future_perfect" },
+        // Future Perfect Continuous - Medium (5-6 words)
+        { en: ["I", "will", "have", "been", "studying"], vi: "Tôi sẽ đã đang học liên tục.", tense: "future_perfect_continuous" },
+        { en: ["She", "will", "have", "been", "working"], vi: "Cô ấy sẽ đã đang làm việc liên tục.", tense: "future_perfect_continuous" },
+        { en: ["He", "will", "have", "been", "running"], vi: "Anh ấy sẽ đã đang chạy bộ liên tục.", tense: "future_perfect_continuous" },
         // To be — Present Simple Positive (5 words)
         { en: ["I", "am", "very", "happy", "today"], vi: "Hôm nay tôi rất vui.", tense: "present_simple" },
         { en: ["She", "is", "a", "good", "student"], vi: "Cô ấy là học sinh giỏi.", tense: "present_simple" },
@@ -766,6 +958,83 @@
         { en: ["They", "are", "not", "interested", "in", "playing", "outside", "today"], vi: "Hôm nay họ không muốn chơi bên ngoài.", tense: "be_negative" },
         { en: ["We", "were", "not", "prepared", "for", "the", "surprise", "test"], vi: "Chúng tôi không chuẩn bị cho bài kiểm tra bất ngờ.", tense: "be_negative" },
         { en: ["The", "new", "student", "is", "not", "very", "confident", "yet"], vi: "Học sinh mới chưa thực sự tự tin.", tense: "be_negative" },
+        // Present Perfect - Hard (8 words)
+        { en: ["She", "has", "already", "finished", "all", "her", "school", "homework"], vi: "Cô ấy đã làm xong hết bài tập về nhà rồi.", tense: "present_perfect" },
+        { en: ["He", "has", "lived", "in", "this", "city", "for", "years"], vi: "Anh ấy đã sống ở thành phố này nhiều năm rồi.", tense: "present_perfect" },
+        { en: ["They", "have", "visited", "many", "countries", "around", "the", "world"], vi: "Họ đã đến thăm nhiều quốc gia trên thế giới.", tense: "present_perfect" },
+        { en: ["I", "have", "never", "eaten", "such", "a", "delicious", "meal"], vi: "Tôi chưa bao giờ ăn bữa ăn nào ngon như vậy.", tense: "present_perfect" },
+        { en: ["We", "have", "just", "finished", "our", "big", "English", "project"], vi: "Chúng tôi vừa xong dự án tiếng Anh lớn của mình.", tense: "present_perfect" },
+        { en: ["Have", "you", "ever", "traveled", "to", "a", "foreign", "country"], vi: "Bạn đã bao giờ đi du lịch nước ngoài chưa?", tense: "present_perfect" },
+        { en: ["She", "has", "not", "called", "her", "mother", "this", "week"], vi: "Tuần này cô ấy chưa gọi điện cho mẹ.", tense: "present_perfect" },
+        { en: ["He", "has", "studied", "English", "for", "five", "long", "years"], vi: "Anh ấy đã học tiếng Anh được năm năm rồi.", tense: "present_perfect" },
+        // Present Perfect Continuous - Hard (8 words)
+        { en: ["She", "has", "been", "studying", "English", "for", "three", "hours"], vi: "Cô ấy đã đang học tiếng Anh được ba tiếng rồi.", tense: "present_perfect_continuous" },
+        { en: ["He", "has", "been", "working", "at", "the", "school", "long"], vi: "Anh ấy đã đang làm việc ở trường rất lâu rồi.", tense: "present_perfect_continuous" },
+        { en: ["They", "have", "been", "practicing", "hard", "for", "the", "concert"], vi: "Họ đã đang luyện tập chăm chỉ cho buổi hòa nhạc.", tense: "present_perfect_continuous" },
+        { en: ["I", "have", "been", "waiting", "for", "you", "all", "morning"], vi: "Tôi đã đang chờ bạn cả buổi sáng rồi.", tense: "present_perfect_continuous" },
+        { en: ["We", "have", "been", "building", "our", "new", "house", "months"], vi: "Chúng tôi đã đang xây ngôi nhà mới được vài tháng.", tense: "present_perfect_continuous" },
+        { en: ["Has", "she", "been", "feeling", "sick", "the", "whole", "week"], vi: "Cô ấy có đang bị bệnh cả tuần không?", tense: "present_perfect_continuous" },
+        // Past Continuous - Hard (8 words)
+        { en: ["She", "was", "reading", "a", "novel", "when", "I", "arrived"], vi: "Cô ấy đang đọc tiểu thuyết khi tôi đến.", tense: "past_continuous" },
+        { en: ["He", "was", "playing", "guitar", "when", "the", "phone", "rang"], vi: "Anh ấy đang chơi đàn khi điện thoại reo.", tense: "past_continuous" },
+        { en: ["They", "were", "studying", "hard", "when", "the", "power", "cut"], vi: "Họ đang học chăm chỉ khi điện bị cúp.", tense: "past_continuous" },
+        { en: ["I", "was", "cooking", "dinner", "when", "she", "called", "me"], vi: "Tôi đang nấu bữa tối khi cô ấy gọi cho tôi.", tense: "past_continuous" },
+        { en: ["We", "were", "watching", "the", "game", "together", "last", "night"], vi: "Tối qua chúng tôi đang xem trận bóng cùng nhau.", tense: "past_continuous" },
+        { en: ["Was", "she", "sleeping", "when", "the", "big", "storm", "started"], vi: "Cô ấy có đang ngủ khi cơn bão lớn bắt đầu không?", tense: "past_continuous" },
+        { en: ["The", "children", "were", "playing", "outside", "in", "the", "rain"], vi: "Bọn trẻ đang chơi ngoài trời trong cơn mưa.", tense: "past_continuous" },
+        { en: ["He", "was", "not", "paying", "attention", "during", "the", "lesson"], vi: "Anh ấy không chú ý trong suốt buổi học.", tense: "past_continuous" },
+        // Past Perfect - Hard (8 words)
+        { en: ["She", "had", "already", "left", "when", "I", "arrived", "there"], vi: "Cô ấy đã rời đi rồi khi tôi đến nơi.", tense: "past_perfect" },
+        { en: ["He", "had", "never", "seen", "such", "a", "beautiful", "sunset"], vi: "Anh ấy chưa bao giờ nhìn thấy hoàng hôn đẹp như vậy.", tense: "past_perfect" },
+        { en: ["They", "had", "finished", "their", "homework", "before", "dinner", "time"], vi: "Họ đã làm xong bài tập trước giờ ăn tối rồi.", tense: "past_perfect" },
+        { en: ["I", "had", "studied", "the", "lesson", "before", "the", "test"], vi: "Tôi đã học bài trước khi làm kiểm tra.", tense: "past_perfect" },
+        { en: ["We", "had", "met", "all", "of", "them", "the", "before"], vi: "Chúng tôi đã gặp tất cả họ từ trước rồi.", tense: "past_perfect" },
+        { en: ["Had", "she", "ever", "visited", "the", "capital", "city", "before"], vi: "Trước đây cô ấy đã bao giờ đến thủ đô chưa?", tense: "past_perfect" },
+        { en: ["The", "train", "had", "already", "left", "by", "eight", "o'clock"], vi: "Chuyến tàu đã rời ga rồi trước tám giờ.", tense: "past_perfect" },
+        { en: ["She", "had", "not", "eaten", "anything", "the", "whole", "day"], vi: "Cô ấy chưa ăn gì trong suốt cả ngày.", tense: "past_perfect" },
+        // Past Perfect Continuous - Hard (8 words)
+        { en: ["She", "had", "been", "studying", "for", "hours", "before", "dinner"], vi: "Cô ấy đã đang học nhiều tiếng trước bữa tối.", tense: "past_perfect_continuous" },
+        { en: ["He", "had", "been", "working", "at", "that", "company", "years"], vi: "Anh ấy đã đang làm việc tại công ty đó nhiều năm.", tense: "past_perfect_continuous" },
+        { en: ["They", "had", "been", "waiting", "for", "two", "long", "hours"], vi: "Họ đã đang chờ đợi suốt hai tiếng đồng hồ.", tense: "past_perfect_continuous" },
+        { en: ["I", "had", "been", "feeling", "sick", "before", "seeing", "doctor"], vi: "Tôi đã đang bị bệnh trước khi đi khám bác sĩ.", tense: "past_perfect_continuous" },
+        { en: ["We", "had", "been", "practicing", "hard", "before", "the", "concert"], vi: "Chúng tôi đã đang luyện tập chăm chỉ trước buổi hòa nhạc.", tense: "past_perfect_continuous" },
+        // Future Simple - Hard (8 words)
+        { en: ["I", "will", "help", "you", "with", "your", "English", "homework"], vi: "Tôi sẽ giúp bạn làm bài tập tiếng Anh.", tense: "future_simple" },
+        { en: ["She", "will", "visit", "her", "grandparents", "next", "long", "weekend"], vi: "Cô ấy sẽ thăm ông bà vào cuối tuần dài tới.", tense: "future_simple" },
+        { en: ["He", "will", "study", "harder", "for", "the", "next", "exam"], vi: "Anh ấy sẽ học chăm hơn cho kỳ thi tiếp theo.", tense: "future_simple" },
+        { en: ["They", "will", "travel", "to", "Japan", "in", "the", "summer"], vi: "Họ sẽ đi du lịch Nhật Bản vào mùa hè tới.", tense: "future_simple" },
+        { en: ["We", "will", "have", "a", "big", "party", "next", "Friday"], vi: "Chúng ta sẽ tổ chức một bữa tiệc lớn thứ Sáu tới.", tense: "future_simple" },
+        { en: ["Will", "you", "help", "me", "with", "this", "English", "project"], vi: "Bạn có thể giúp tôi với dự án tiếng Anh này không?", tense: "future_simple" },
+        { en: ["She", "will", "not", "be", "late", "for", "the", "exam"], vi: "Cô ấy sẽ không đến muộn cho kỳ thi.", tense: "future_simple" },
+        { en: ["He", "will", "become", "a", "famous", "English", "teacher", "someday"], vi: "Anh ấy sẽ trở thành giáo viên tiếng Anh nổi tiếng.", tense: "future_simple" },
+        // Future Going To - Hard (8 words)
+        { en: ["I", "am", "going", "to", "study", "harder", "this", "semester"], vi: "Học kỳ này tôi sắp học chăm hơn.", tense: "future_going_to" },
+        { en: ["She", "is", "going", "to", "cook", "a", "big", "dinner"], vi: "Cô ấy sắp nấu một bữa tối thịnh soạn.", tense: "future_going_to" },
+        { en: ["He", "is", "going", "to", "travel", "around", "the", "world"], vi: "Anh ấy sắp đi du lịch vòng quanh thế giới.", tense: "future_going_to" },
+        { en: ["They", "are", "going", "to", "build", "a", "new", "school"], vi: "Họ sắp xây dựng một ngôi trường mới.", tense: "future_going_to" },
+        { en: ["We", "are", "going", "to", "win", "this", "important", "match"], vi: "Chúng ta sắp thắng trận đấu quan trọng này rồi.", tense: "future_going_to" },
+        { en: ["Are", "you", "going", "to", "take", "the", "English", "exam"], vi: "Bạn có sắp tham gia kỳ thi tiếng Anh không?", tense: "future_going_to" },
+        { en: ["It", "is", "going", "to", "rain", "heavily", "this", "afternoon"], vi: "Chiều nay trời sắp mưa to rồi.", tense: "future_going_to" },
+        // Future Continuous - Hard (8 words)
+        { en: ["I", "will", "be", "studying", "English", "at", "eight", "tomorrow"], vi: "Ngày mai lúc tám giờ tôi sẽ đang học tiếng Anh.", tense: "future_continuous" },
+        { en: ["She", "will", "be", "working", "at", "the", "office", "tomorrow"], vi: "Ngày mai cô ấy sẽ đang làm việc ở văn phòng.", tense: "future_continuous" },
+        { en: ["He", "will", "be", "traveling", "to", "Japan", "next", "week"], vi: "Tuần tới anh ấy sẽ đang trên đường đi Nhật Bản.", tense: "future_continuous" },
+        { en: ["They", "will", "be", "playing", "football", "at", "five", "o'clock"], vi: "Lúc năm giờ họ sẽ đang chơi bóng đá.", tense: "future_continuous" },
+        { en: ["We", "will", "be", "having", "dinner", "when", "you", "arrive"], vi: "Chúng tôi sẽ đang ăn tối khi bạn đến nơi.", tense: "future_continuous" },
+        { en: ["Will", "she", "be", "studying", "at", "the", "library", "tonight"], vi: "Tối nay cô ấy có đang học ở thư viện không?", tense: "future_continuous" },
+        // Future Perfect - Hard (8 words)
+        { en: ["I", "will", "have", "finished", "this", "book", "by", "Friday"], vi: "Đến thứ Sáu tôi sẽ đọc xong cuốn sách này.", tense: "future_perfect" },
+        { en: ["She", "will", "have", "graduated", "from", "school", "by", "June"], vi: "Đến tháng Sáu cô ấy sẽ đã tốt nghiệp trường.", tense: "future_perfect" },
+        { en: ["He", "will", "have", "learned", "English", "for", "ten", "years"], vi: "Anh ấy sẽ đã học tiếng Anh được mười năm.", tense: "future_perfect" },
+        { en: ["They", "will", "have", "built", "the", "new", "school", "soon"], vi: "Họ sẽ đã xây xong ngôi trường mới sớm thôi.", tense: "future_perfect" },
+        { en: ["We", "will", "have", "completed", "the", "project", "by", "Monday"], vi: "Đến thứ Hai chúng tôi sẽ đã hoàn thành dự án.", tense: "future_perfect" },
+        { en: ["Will", "you", "have", "read", "this", "book", "by", "tomorrow"], vi: "Ngày mai bạn có đọc xong cuốn sách này không?", tense: "future_perfect" },
+        // Future Perfect Continuous - Hard (8 words)
+        { en: ["I", "will", "have", "been", "studying", "English", "for", "years"], vi: "Tôi sẽ đã học tiếng Anh liên tục nhiều năm rồi.", tense: "future_perfect_continuous" },
+        { en: ["She", "will", "have", "been", "working", "here", "for", "decades"], vi: "Cô ấy sẽ đã làm việc ở đây liên tục nhiều thập kỷ.", tense: "future_perfect_continuous" },
+        { en: ["He", "will", "have", "been", "teaching", "at", "the", "school"], vi: "Anh ấy sẽ đã đang dạy học ở trường liên tục.", tense: "future_perfect_continuous" },
+        { en: ["They", "will", "have", "been", "living", "here", "for", "decades"], vi: "Họ sẽ đã sống ở đây liên tục nhiều thập kỷ.", tense: "future_perfect_continuous" },
+        { en: ["We", "will", "have", "been", "practicing", "English", "for", "months"], vi: "Chúng tôi sẽ đã luyện tiếng Anh liên tục nhiều tháng.", tense: "future_perfect_continuous" },
       ]
     };
 
