@@ -343,6 +343,21 @@
       background: #f3e8ff;
       color: #7e22ce;
     }
+
+    .tense-conditional_1 {
+      background: #dcfce7;
+      color: #14532d;
+    }
+
+    .tense-conditional_2 {
+      background: #fef9c3;
+      color: #713f12;
+    }
+
+    .tense-conditional_3 {
+      background: #fee2e2;
+      color: #7f1d1d;
+    }
   </style>
 </head>
 
@@ -376,6 +391,9 @@
       <option value="future_perfect_continuous">Future Perfect Continuous</option>
       <option value="question">Questions</option>
       <option value="negative">Negatives</option>
+      <option value="conditional_1">Conditional Type 1</option>
+      <option value="conditional_2">Conditional Type 2</option>
+      <option value="conditional_3">Conditional Type 3</option>
     </select>
     <div class="score-badge">🏆 Điểm: <span id="score">0</span></div>
   </div>
@@ -415,7 +433,10 @@
       future_going_to: 'Thì: Future (Be Going To)',
       future_continuous: 'Thì: Future Continuous',
       future_perfect: 'Thì: Future Perfect',
-      future_perfect_continuous: 'Thì: Future Perfect Continuous'
+      future_perfect_continuous: 'Thì: Future Perfect Continuous',
+      conditional_1: 'Câu Điều Kiện Loại 1',
+      conditional_2: 'Câu Điều Kiện Loại 2',
+      conditional_3: 'Câu Điều Kiện Loại 3'
     };
 
     // ─── SENTENCE LIBRARY ────────────────────────────────────────────────────────
@@ -584,22 +605,23 @@
         { en: ["We", "will", "win", "today"], vi: "Hôm nay chúng ta sẽ thắng.", tense: "future_simple" },
         { en: ["It", "will", "rain", "soon"], vi: "Trời sẽ mưa sớm thôi.", tense: "future_simple" },
         { en: ["She", "will", "cook", "dinner"], vi: "Cô ấy sẽ nấu bữa tối.", tense: "future_simple" },
-        // Future Going To - Easy (4 words)
-        { en: ["I", "am", "going", "to"], vi: "Tôi sắp làm điều đó.", tense: "future_going_to" },
-        { en: ["She", "is", "going", "to"], vi: "Cô ấy sắp đi.", tense: "future_going_to" },
-        { en: ["They", "are", "going", "to"], vi: "Họ sắp bắt đầu.", tense: "future_going_to" },
-        { en: ["He", "is", "going", "to"], vi: "Anh ấy sắp ăn.", tense: "future_going_to" },
-        { en: ["We", "are", "going", "to"], vi: "Chúng tôi sắp đi.", tense: "future_going_to" },
+        // Future Going To - Easy (5 words)
+        { en: ["I", "am", "going", "to", "run"], vi: "Tôi sắp đi chạy bộ.", tense: "future_going_to" },
+        { en: ["She", "is", "going", "to", "sing"], vi: "Cô ấy sắp sửa hát.", tense: "future_going_to" },
+        { en: ["They", "are", "going", "to", "start"], vi: "Họ sắp sửa bắt đầu.", tense: "future_going_to" },
+        { en: ["He", "is", "going", "to", "eat"], vi: "Anh ấy chuẩn bị ăn.", tense: "future_going_to" },
+        { en: ["We", "are", "going", "to", "leave"], vi: "Chúng tôi sắp rời đi.", tense: "future_going_to" },
         // Future Continuous - Easy (4 words)
         { en: ["I", "will", "be", "working"], vi: "Tôi sẽ đang làm việc.", tense: "future_continuous" },
         { en: ["She", "will", "be", "studying"], vi: "Cô ấy sẽ đang học bài.", tense: "future_continuous" },
         { en: ["He", "will", "be", "sleeping"], vi: "Anh ấy sẽ đang ngủ.", tense: "future_continuous" },
         { en: ["They", "will", "be", "playing"], vi: "Họ sẽ đang chơi.", tense: "future_continuous" },
-        // Future Perfect - Easy (4 words)
-        { en: ["I", "will", "have", "done"], vi: "Tôi sẽ đã làm xong.", tense: "future_perfect" },
+        // Future Perfect - Easy (Exactly 4 words)
+        { en: ["I", "will", "have", "finished"], vi: "Tôi sẽ đã hoàn thành.", tense: "future_perfect" },
         { en: ["She", "will", "have", "left"], vi: "Cô ấy sẽ đã rời đi.", tense: "future_perfect" },
         { en: ["He", "will", "have", "eaten"], vi: "Anh ấy sẽ đã ăn xong.", tense: "future_perfect" },
-        { en: ["They", "will", "have", "finished"], vi: "Họ sẽ đã hoàn thành xong.", tense: "future_perfect" },
+        { en: ["They", "will", "have", "won"], vi: "Họ sẽ đã chiến thắng.", tense: "future_perfect" },
+        { en: ["We", "will", "have", "met"], vi: "Chúng tôi sẽ đã gặp nhau.", tense: "future_perfect" },
         // Future Perfect Continuous - Easy (4 words)
         { en: ["I", "will", "have", "been"], vi: "Tôi sẽ đã đang làm việc.", tense: "future_perfect_continuous" },
         { en: ["She", "will", "have", "been"], vi: "Cô ấy sẽ đã đang học.", tense: "future_perfect_continuous" },
@@ -623,6 +645,23 @@
         // To be — be_negative Past (4 words)
         { en: ["I", "was", "not", "ready"], vi: "Tôi chưa sẵn sàng.", tense: "be_negative" },
         { en: ["She", "was", "not", "there"], vi: "Cô ấy không ở đó.", tense: "be_negative" },
+        // Conditional Type 1 - Easy (4 words)
+        { en: ["If", "it", "rains", "today"], vi: "Nếu hôm nay trời mưa.", tense: "conditional_1" },
+        { en: ["I", "will", "call", "you"], vi: "Tôi sẽ gọi cho bạn.", tense: "conditional_1" },
+        { en: ["If", "she", "studies", "hard"], vi: "Nếu cô ấy học chăm chỉ.", tense: "conditional_1" },
+        { en: ["He", "will", "pass", "easily"], vi: "Anh ấy sẽ đậu dễ dàng.", tense: "conditional_1" },
+        { en: ["If", "you", "help", "me"], vi: "Nếu bạn giúp tôi.", tense: "conditional_1" },
+        { en: ["We", "will", "finish", "quickly"], vi: "Chúng tôi sẽ xong nhanh thôi.", tense: "conditional_1" },
+        // Conditional Type 2 - Easy (4 words)
+        { en: ["If", "I", "were", "rich"], vi: "Nếu tôi giàu có.", tense: "conditional_2" },
+        { en: ["I", "would", "travel", "far"], vi: "Tôi sẽ đi xa.", tense: "conditional_2" },
+        { en: ["If", "she", "had", "time"], vi: "Nếu cô ấy có thời gian.", tense: "conditional_2" },
+        { en: ["She", "would", "help", "you"], vi: "Cô ấy sẽ giúp bạn.", tense: "conditional_2" },
+        // Conditional Type 3 - Easy (4 words)
+        { en: ["If", "I", "had", "known"], vi: "Nếu tôi đã biết.", tense: "conditional_3" },
+        { en: ["I", "would", "have", "come"], vi: "Tôi đã đến rồi.", tense: "conditional_3" },
+        { en: ["If", "she", "had", "tried"], vi: "Nếu cô ấy đã cố gắng.", tense: "conditional_3" },
+        { en: ["She", "would", "have", "won"], vi: "Cô ấy đã thắng rồi.", tense: "conditional_3" },
       ],
 
       medium: [
@@ -641,35 +680,35 @@
         { en: ["They", "play", "football", "on", "weekends"], vi: "Họ chơi bóng đá vào cuối tuần.", tense: "present_simple" },
         { en: ["We", "clean", "our", "house", "weekly"], vi: "Chúng tôi dọn nhà hàng tuần.", tense: "present_simple" },
         // -- Thói quen & Hoạt động --
-        { en: ["They", "walk", "to", "the", "park", "every", "evening"], vi: "Họ đi bộ ra công viên mỗi tối.", tense: "present_simple" },
-        { en: ["My", "brother", "studies", "math", "for", "two", "hours"], vi: "Anh tôi học toán trong hai tiếng.", tense: "present_simple" },
-        { en: ["I", "usually", "wake", "up", "at", "six", "thirty"], vi: "Tôi thường thức dậy lúc sáu giờ rưỡi.", tense: "present_simple" },
-        { en: ["She", "makes", "delicious", "cakes", "for", "the", "party"], vi: "Cô ấy làm những chiếc bánh ngon cho bữa tiệc.", tense: "present_simple" },
-        { en: ["He", "always", "finishes", "his", "work", "on", "time"], vi: "Anh ấy luôn hoàn thành công việc đúng hạn.", tense: "present_simple" },
-        { en: ["My", "friend", "sends", "me", "emails", "every", "day"], vi: "Bạn tôi gửi email cho tôi mỗi ngày.", tense: "present_simple" },
-        { en: ["We", "take", "the", "bus", "to", "the", "center"], vi: "Chúng tôi đi xe buýt đến trung tâm.", tense: "present_simple" },
-        { en: ["He", "cleans", "the", "windows", "every", "two", "weeks"], vi: "Anh ấy lau cửa sổ hai tuần một lần.", tense: "present_simple" },
-        { en: ["I", "wash", "my", "hands", "before", "every", "meal"], vi: "Tôi rửa tay trước mỗi bữa ăn.", tense: "present_simple" },
-        { en: ["She", "brushes", "her", "hair", "in", "the", "mirror"], vi: "Cô ấy chải tóc trước gương.", tense: "present_simple" },
+        { en: ["They", "walk", "to", "the", "park"], vi: "Họ đi bộ ra công viên.", tense: "present_simple" },
+        { en: ["My", "brother", "studies", "math", "hard"], vi: "Anh tôi học toán chăm chỉ.", tense: "present_simple" },
+        { en: ["I", "wake", "up", "at", "six"], vi: "Tôi thức dậy lúc sáu giờ.", tense: "present_simple" },
+        { en: ["She", "makes", "cakes", "for", "party"], vi: "Cô ấy làm bánh cho bữa tiệc.", tense: "present_simple" },
+        { en: ["He", "finishes", "his", "work", "now"], vi: "Anh ấy hoàn thành việc bây giờ.", tense: "present_simple" },
+        { en: ["My", "friend", "sends", "me", "emails"], vi: "Bạn tôi gửi email cho tôi.", tense: "present_simple" },
+        { en: ["We", "take", "bus", "to", "center"], vi: "Chúng tôi đi xe buýt đến trung tâm.", tense: "present_simple" },
+        { en: ["He", "cleans", "windows", "every", "week"], vi: "Anh ấy lau cửa sổ mỗi tuần.", tense: "present_simple" },
+        { en: ["I", "wash", "hands", "before", "meals"], vi: "Tôi rửa tay trước bữa ăn.", tense: "present_simple" },
+        { en: ["She", "brushes", "hair", "in", "mirror"], vi: "Cô ấy chải tóc trước gương.", tense: "present_simple" },
 
         // -- Trạng thái & Sở thích --
-        { en: ["She", "works", "in", "a", "very", "big", "office"], vi: "Cô ấy làm việc trong một văn phòng rất lớn.", tense: "present_simple" },
-        { en: ["My", "parents", "live", "in", "a", "small", "village"], vi: "Bố mẹ tôi sống ở một ngôi làng nhỏ.", tense: "present_simple" },
-        { en: ["I", "want", "to", "learn", "how", "to", "swim"], vi: "Tôi muốn học cách bơi.", tense: "present_simple" },
-        { en: ["They", "speak", "French", "and", "Spanish", "very", "well"], vi: "Họ nói tiếng Pháp và tiếng Tây Ban Nha rất giỏi.", tense: "present_simple" },
-        { en: ["The", "children", "play", "games", "in", "the", "garden"], vi: "Bọn trẻ chơi trò chơi trong vườn.", tense: "present_simple" },
-        { en: ["We", "enjoy", "having", "lunch", "in", "the", "garden"], vi: "Chúng tôi thích ăn trưa trong vườn.", tense: "present_simple" },
-        { en: ["He", "tells", "very", "funny", "stories", "to", "us"], vi: "Anh ấy kể những câu chuyện rất vui cho chúng tôi.", tense: "present_simple" },
-        { en: ["I", "need", "a", "new", "pair", "of", "shoes"], vi: "Tôi cần một đôi giày mới.", tense: "present_simple" },
+        { en: ["She", "works", "in", "an", "office"], vi: "Cô ấy làm việc trong văn phòng.", tense: "present_simple" },
+        { en: ["My", "parents", "live", "in", "village"], vi: "Bố mẹ tôi sống ở ngôi làng.", tense: "present_simple" },
+        { en: ["I", "want", "to", "learn", "swim"], vi: "Tôi muốn học bơi.", tense: "present_simple" },
+        { en: ["They", "speak", "French", "very", "well"], vi: "Họ nói tiếng Pháp rất giỏi.", tense: "present_simple" },
+        { en: ["Children", "play", "games", "in", "garden"], vi: "Bọn trẻ chơi trò chơi trong vườn.", tense: "present_simple" },
+        { en: ["We", "enjoy", "lunch", "in", "garden"], vi: "Chúng tôi thích ăn trưa trong vườn.", tense: "present_simple" },
+        { en: ["He", "tells", "funny", "stories", "now"], vi: "Anh ấy kể những câu chuyện vui.", tense: "present_simple" },
+        { en: ["I", "need", "new", "pair", "shoes"], vi: "Tôi cần một đôi giày mới.", tense: "present_simple" },
 
         // -- Sự thật & Lịch trình --
-        { en: ["The", "birds", "sing", "sweetly", "in", "the", "trees"], vi: "Những chú chim hót líu lo trên cây.", tense: "present_simple" },
-        { en: ["The", "store", "closes", "at", "eight", "every", "night"], vi: "Cửa hàng đóng cửa lúc tám giờ mỗi tối.", tense: "present_simple" },
-        { en: ["The", "moon", "shines", "brightly", "at", "night"], vi: "Mặt trăng tỏa sáng rực rỡ vào ban đêm.", tense: "present_simple" },
-        { en: ["The", "chef", "cooks", "special", "food", "for", "guests"], vi: "Đầu bếp nấu món ăn đặc biệt cho thực khách.", tense: "present_simple" },
-        { en: ["The", "leaves", "fall", "from", "trees", "in", "autumn"], vi: "Lá rụng khỏi cây vào mùa thu.", tense: "present_simple" },
-        { en: ["My", "watch", "keeps", "time", "very", "accurately"], vi: "Đồng hồ của tôi chạy rất chính xác.", tense: "present_simple" },
-        { en: ["Plants", "grow", "quickly", "in", "the", "warm", "rain"], vi: "Cây cối lớn nhanh trong cơn mưa ấm áp.", tense: "present_simple" },
+        { en: ["Birds", "sing", "in", "the", "trees"], vi: "Những chú chim hót trên cây.", tense: "present_simple" },
+        { en: ["The", "store", "closes", "at", "eight"], vi: "Cửa hàng đóng cửa lúc tám giờ.", tense: "present_simple" },
+        { en: ["The", "moon", "shines", "at", "night"], vi: "Mặt trăng tỏa sáng vào ban đêm.", tense: "present_simple" },
+        { en: ["Chef", "cooks", "food", "for", "guests"], vi: "Đầu bếp nấu ăn cho thực khách.", tense: "present_simple" },
+        { en: ["Leaves", "fall", "down", "in", "autumn"], vi: "Lá rụng xuống vào mùa thu.", tense: "present_simple" },
+        { en: ["My", "watch", "keeps", "time", "well"], vi: "Đồng hồ của tôi chạy tốt.", tense: "present_simple" },
+        { en: ["Plants", "grow", "in", "the", "rain"], vi: "Cây cối lớn lên trong mưa.", tense: "present_simple" },
         // Past Simple - Medium (Full Pack)
         { en: ["He", "visited", "his", "old", "friend"], vi: "Anh ấy đã thăm người bạn cũ.", tense: "past_simple" },
         { en: ["They", "watched", "a", "funny", "movie"], vi: "Họ đã xem một bộ phim hài.", tense: "past_simple" },
@@ -685,32 +724,32 @@
         { en: ["He", "slept", "very", "late", "yesterday"], vi: "Anh ấy đã ngủ rất muộn hôm qua.", tense: "past_simple" },
         { en: ["They", "traveled", "to", "Ha", "Noi"], vi: "Họ đã đi du lịch đến Hà Nội.", tense: "past_simple" },
 
-        // -- Bổ sung thêm (Medium) --
-        { en: ["They", "cleaned", "the", "house", "two", "days", "ago"], vi: "Họ đã dọn nhà cách đây hai ngày.", tense: "past_simple" },
-        { en: ["My", "sister", "painted", "a", "beautiful", "flower"], vi: "Chị tôi đã vẽ một bông hoa đẹp.", tense: "past_simple" },
-        { en: ["He", "gave", "me", "a", "very", "nice", "gift"], vi: "Anh ấy đã tặng tôi một món quà rất đẹp.", tense: "past_simple" },
-        { en: ["We", "ate", "pizza", "for", "dinner", "yesterday"], vi: "Chúng tôi đã ăn pizza cho bữa tối hôm qua.", tense: "past_simple" },
-        { en: ["She", "found", "her", "keys", "in", "the", "car"], vi: "Cô ấy đã tìm thấy chìa khóa trong xe.", tense: "past_simple" },
-        { en: ["The", "rain", "stopped", "a", "few", "minutes", "ago"], vi: "Cơn mưa đã tạnh vài phút trước.", tense: "past_simple" },
-        { en: ["I", "forgot", "to", "bring", "my", "umbrella"], vi: "Tôi đã quên mang theo ô của mình.", tense: "past_simple" },
-        { en: ["They", "built", "a", "big", "sandcastle", "on", "beach"], vi: "Họ đã xây một lâu đài cát lớn trên biển.", tense: "past_simple" },
-        { en: ["He", "ran", "five", "kilometers", "last", "Sunday"], vi: "Anh ấy đã chạy 5 km vào Chủ Nhật trước.", tense: "past_simple" },
-        { en: ["She", "told", "me", "a", "very", "secret", "story"], vi: "Cô ấy đã kể tôi nghe một chuyện rất bí mật.", tense: "past_simple" },
-        { en: ["We", "saw", "many", "stars", "in", "the", "sky"], vi: "Chúng tôi đã thấy rất nhiều sao trên bầu trời.", tense: "past_simple" },
-        { en: ["The", "movie", "started", "at", "seven", "o'clock"], vi: "Bộ phim đã bắt đầu lúc bảy giờ.", tense: "past_simple" },
-        { en: ["I", "met", "my", "old", "teacher", "at", "school"], vi: "Tôi đã gặp giáo viên cũ ở trường.", tense: "past_simple" },
-        { en: ["He", "broke", "his", "favorite", "coffee", "cup"], vi: "Anh ấy đã làm vỡ chiếc cốc cà phê yêu thích.", tense: "past_simple" },
-        { en: ["They", "drank", "some", "cold", "orange", "juice"], vi: "Họ đã uống một ít nước cam lạnh.", tense: "past_simple" },
-        { en: ["She", "spent", "all", "her", "money", "on", "books"], vi: "Cô ấy đã tiêu hết tiền vào sách.", tense: "past_simple" },
-        { en: ["We", "took", "many", "photos", "during", "the", "trip"], vi: "Chúng tôi đã chụp nhiều ảnh trong chuyến đi.", tense: "past_simple" },
-        { en: ["He", "understood", "the", "lesson", "very", "quickly"], vi: "Anh ấy đã hiểu bài học rất nhanh.", tense: "past_simple" },
-        { en: ["I", "felt", "very", "happy", "after", "the", "news"], vi: "Tôi đã cảm thấy rất hạnh phúc sau tin tức đó.", tense: "past_simple" },
-        { en: ["The", "shop", "opened", "early", "this", "morning"], vi: "Cửa hàng đã mở cửa sớm sáng nay.", tense: "past_simple" },
-        { en: ["They", "lived", "in", "that", "house", "for", "years"], vi: "Họ đã sống trong ngôi nhà đó nhiều năm.", tense: "past_simple" },
-        { en: ["She", "brought", "some", "fruits", "to", "the", "party"], vi: "Cô ấy đã mang một ít trái cây đến bữa tiệc.", tense: "past_simple" },
-        { en: ["He", "caught", "a", "big", "fish", "in", "river"], vi: "Anh ấy đã bắt được một con cá lớn dưới sông.", tense: "past_simple" },
-        { en: ["We", "helped", "the", "old", "man", "cross", "street"], vi: "Chúng tôi đã giúp ông cụ băng qua đường.", tense: "past_simple" },
-        { en: ["I", "finished", "my", "homework", "before", "dinner"], vi: "Tôi đã làm xong bài tập trước bữa tối.", tense: "past_simple" },
+        // -- Bổ sung thêm (Medium - 5 words) --
+        { en: ["They", "cleaned", "the", "house", "yesterday"], vi: "Họ đã dọn nhà hôm qua.", tense: "past_simple" },
+        { en: ["My", "sister", "painted", "a", "flower"], vi: "Chị tôi đã vẽ một bông hoa.", tense: "past_simple" },
+        { en: ["He", "gave", "me", "a", "gift"], vi: "Anh ấy đã tặng tôi một món quà.", tense: "past_simple" },
+        { en: ["We", "ate", "pizza", "for", "dinner"], vi: "Chúng tôi đã ăn pizza cho bữa tối.", tense: "past_simple" },
+        { en: ["She", "found", "keys", "in", "car"], vi: "Cô ấy tìm thấy chìa khóa trong xe.", tense: "past_simple" },
+        { en: ["The", "rain", "stopped", "just", "now"], vi: "Cơn mưa vừa mới tạnh.", tense: "past_simple" },
+        { en: ["I", "forgot", "to", "bring", "it"], vi: "Tôi đã quên mang theo nó.", tense: "past_simple" },
+        { en: ["They", "built", "a", "big", "sandcastle"], vi: "Họ đã xây một lâu đài cát lớn.", tense: "past_simple" },
+        { en: ["He", "ran", "five", "kilometers", "yesterday"], vi: "Anh ấy đã chạy 5 km hôm qua.", tense: "past_simple" },
+        { en: ["She", "told", "me", "a", "story"], vi: "Cô ấy đã kể tôi nghe một câu chuyện.", tense: "past_simple" },
+        { en: ["We", "saw", "stars", "in", "sky"], vi: "Chúng tôi thấy sao trên trời.", tense: "past_simple" },
+        { en: ["The", "movie", "started", "at", "seven"], vi: "Bộ phim đã bắt đầu lúc bảy giờ.", tense: "past_simple" },
+        { en: ["I", "met", "my", "old", "teacher"], vi: "Tôi đã gặp giáo viên cũ của mình.", tense: "past_simple" },
+        { en: ["He", "broke", "his", "favorite", "cup"], vi: "Anh ấy làm vỡ chiếc cốc yêu thích.", tense: "past_simple" },
+        { en: ["They", "drank", "some", "orange", "juice"], vi: "Họ đã uống một ít nước cam.", tense: "past_simple" },
+        { en: ["She", "spent", "all", "her", "money"], vi: "Cô ấy đã tiêu hết tiền của mình.", tense: "past_simple" },
+        { en: ["We", "took", "photos", "during", "trip"], vi: "Chúng tôi chụp ảnh trong chuyến đi.", tense: "past_simple" },
+        { en: ["He", "understood", "the", "lesson", "quickly"], vi: "Anh ấy đã hiểu bài học nhanh chóng.", tense: "past_simple" },
+        { en: ["I", "felt", "happy", "after", "that"], vi: "Tôi thấy hạnh phúc sau chuyện đó.", tense: "past_simple" },
+        { en: ["The", "shop", "opened", "this", "morning"], vi: "Cửa hàng đã mở cửa sáng nay.", tense: "past_simple" },
+        { en: ["They", "lived", "there", "for", "years"], vi: "Họ đã sống ở đó nhiều năm.", tense: "past_simple" },
+        { en: ["She", "brought", "fruits", "to", "party"], vi: "Cô ấy mang trái cây đến bữa tiệc.", tense: "past_simple" },
+        { en: ["He", "caught", "a", "big", "fish"], vi: "Anh ấy bắt được một con cá lớn.", tense: "past_simple" },
+        { en: ["We", "helped", "the", "old", "man"], vi: "Chúng tôi đã giúp ông cụ.", tense: "past_simple" },
+        { en: ["I", "finished", "homework", "before", "dinner"], vi: "Tôi làm xong bài tập trước bữa tối.", tense: "past_simple" },
         // Present Continuous
         { en: ["She", "is", "reading", "a", "book"], vi: "Cô ấy đang đọc một cuốn sách.", tense: "present_continuous" },
         { en: ["They", "are", "playing", "in", "the", "park"], vi: "Họ đang chơi trong công viên.", tense: "present_continuous" },
@@ -840,6 +879,35 @@
         { en: ["He", "is", "not", "a", "teacher"], vi: "Anh ấy không phải giáo viên.", tense: "be_negative" },
         { en: ["They", "were", "not", "very", "late"], vi: "Họ không đến muộn lắm.", tense: "be_negative" },
         { en: ["We", "are", "not", "very", "busy"], vi: "Chúng tôi không bận lắm.", tense: "be_negative" },
+        // Conditional Type 1 - Medium (5 words)
+        { en: ["If", "it", "rains", "I'll", "stay", "home"], vi: "Nếu trời mưa tôi sẽ ở nhà.", tense: "conditional_1" },
+        { en: ["If", "you", "study", "you'll", "pass"], vi: "Nếu bạn học bạn sẽ đậu.", tense: "conditional_1" },
+        { en: ["If", "she", "calls", "I'll", "come"], vi: "Nếu cô ấy gọi tôi sẽ đến.", tense: "conditional_1" },
+        { en: ["If", "he", "tries", "he'll", "succeed"], vi: "Nếu anh ấy cố gắng anh ấy sẽ thành công.", tense: "conditional_1" },
+        { en: ["If", "we", "leave", "now", "we'll", "be", "on", "time"], vi: "Nếu chúng ta đi ngay bây giờ chúng ta sẽ kịp giờ.", tense: "conditional_1" },
+        { en: ["I", "will", "help", "if", "asked"], vi: "Tôi sẽ giúp nếu được nhờ.", tense: "conditional_1" },
+        { en: ["If", "I", "win", "I'll", "share"], vi: "Nếu tôi thắng tôi sẽ chia sẻ.", tense: "conditional_1" },
+        { en: ["If", "you", "ask", "he'll", "help"], vi: "Nếu bạn hỏi anh ấy sẽ giúp.", tense: "conditional_1" },
+        { en: ["If", "they", "lose", "they'll", "cry"], vi: "Nếu họ thua họ sẽ khóc.", tense: "conditional_1" },
+        { en: ["If", "we", "run", "we'll", "win"], vi: "Nếu chúng ta chạy chúng ta sẽ thắng.", tense: "conditional_1" },
+        { en: ["If", "it's", "hot", "I'll", "swim"], vi: "Nếu trời nóng tôi sẽ đi bơi.", tense: "conditional_1" },
+        { en: ["If", "you", "go", "I'll", "go"], vi: "Nếu bạn đi tôi cũng sẽ đi.", tense: "conditional_1" },
+        { en: ["If", "she", "sings", "we'll", "dance"], vi: "Nếu cô ấy hát chúng ta sẽ nhảy.", tense: "conditional_1" },
+        { en: ["If", "food", "smells", "don't", "eat"], vi: "Nếu thức ăn có mùi đừng ăn.", tense: "conditional_1" },
+        { en: ["If", "you're", "late", "we'll", "start"], vi: "Nếu bạn trễ chúng tôi sẽ bắt đầu.", tense: "conditional_1" },
+        { en: ["If", "prices", "rise", "I'll", "quit"], vi: "Nếu giá tăng tôi sẽ bỏ cuộc.", tense: "conditional_1" },
+        // Conditional Type 2 - Medium (5 words)
+        { en: ["If", "I", "were", "you", "I'd"], vi: "Nếu tôi là bạn tôi sẽ.", tense: "conditional_2" },
+        { en: ["If", "she", "had", "money", "she'd"], vi: "Nếu cô ấy có tiền cô ấy sẽ.", tense: "conditional_2" },
+        { en: ["If", "he", "could", "fly", "he'd"], vi: "Nếu anh ấy có thể bay anh ấy sẽ.", tense: "conditional_2" },
+        { en: ["If", "they", "tried", "they", "would"], vi: "Nếu họ cố gắng họ sẽ thành công.", tense: "conditional_2" },
+        { en: ["I", "would", "travel", "if", "possible"], vi: "Tôi sẽ đi du lịch nếu có thể.", tense: "conditional_2" },
+        // Conditional Type 3 - Medium (5 words)
+        { en: ["If", "I", "had", "studied", "harder"], vi: "Nếu tôi đã học chăm hơn.", tense: "conditional_3" },
+        { en: ["I", "would", "have", "passed", "easily"], vi: "Tôi đã đậu dễ dàng rồi.", tense: "conditional_3" },
+        { en: ["If", "she", "had", "left", "earlier"], vi: "Nếu cô ấy đã đi sớm hơn.", tense: "conditional_3" },
+        { en: ["She", "would", "have", "caught", "bus"], vi: "Cô ấy đã kịp xe buýt rồi.", tense: "conditional_3" },
+        { en: ["If", "he", "had", "been", "careful"], vi: "Nếu anh ấy đã cẩn thận hơn.", tense: "conditional_3" },
       ],
 
       hard: [
@@ -1035,6 +1103,34 @@
         { en: ["He", "will", "have", "been", "teaching", "at", "the", "school"], vi: "Anh ấy sẽ đã đang dạy học ở trường liên tục.", tense: "future_perfect_continuous" },
         { en: ["They", "will", "have", "been", "living", "here", "for", "decades"], vi: "Họ sẽ đã sống ở đây liên tục nhiều thập kỷ.", tense: "future_perfect_continuous" },
         { en: ["We", "will", "have", "been", "practicing", "English", "for", "months"], vi: "Chúng tôi sẽ đã luyện tiếng Anh liên tục nhiều tháng.", tense: "future_perfect_continuous" },
+        // Conditional Type 1 - Hard (Exactly 8 words)
+
+        // 5 Câu của bạn (Đã fix câu lỗi ngữ pháp)
+        { en: ["If", "it", "rains", "tomorrow", "we", "will", "stay", "home"], vi: "Nếu ngày mai trời mưa chúng ta sẽ ở nhà.", tense: "conditional_1" },
+        { en: ["If", "you", "study", "hard", "you", "will", "pass", "easily"], vi: "Nếu bạn học chăm chỉ bạn sẽ đậu dễ dàng.", tense: "conditional_1" },
+        { en: ["If", "she", "calls", "me", "I", "will", "come", "immediately"], vi: "Nếu cô ấy gọi tôi tôi sẽ đến ngay lập tức.", tense: "conditional_1" },
+        { en: ["If", "he", "eats", "well", "he", "will", "feel", "better"], vi: "Nếu anh ấy ăn uống tốt anh ấy sẽ cảm thấy khỏe hơn.", tense: "conditional_1" },
+        { en: ["If", "we", "leave", "now", "we", "will", "arrive", "early"], vi: "Nếu chúng ta đi ngay bây giờ chúng ta sẽ đến sớm.", tense: "conditional_1" }, // Đã đổi để đủ 8 từ
+        { en: ["If", "they", "work", "together", "they", "will", "finish", "soon"], vi: "Nếu họ cùng nhau làm việc họ sẽ xong sớm thôi.", tense: "conditional_1" },
+        { en: ["If", "you", "drop", "that", "glass", "it", "will", "break"], vi: "Nếu bạn làm rơi cái ly đó nó sẽ vỡ.", tense: "conditional_1" },
+        { en: ["If", "prices", "go", "up", "we", "will", "buy", "less"], vi: "Nếu giá cả tăng lên chúng ta sẽ mua ít hơn.", tense: "conditional_1" },
+        { en: ["If", "he", "misses", "the", "train", "he'll", "be", "late"], vi: "Nếu anh ấy lỡ chuyến tàu anh ấy sẽ bị trễ.", tense: "conditional_1" },
+        { en: ["If", "you", "practice", "every", "day", "you", "will", "improve"], vi: "Nếu bạn luyện tập mỗi ngày bạn sẽ tiến bộ.", tense: "conditional_1" },
+        { en: ["If", "she", "saves", "money", "she", "will", "travel", "abroad"], vi: "Nếu cô ấy tiết kiệm tiền cô ấy sẽ đi du lịch nước ngoài.", tense: "conditional_1" },
+        // Conditional Type 2 - Hard (8 words)
+        { en: ["If", "I", "were", "rich", "I", "would", "travel", "everywhere"], vi: "Nếu tôi giàu có tôi sẽ đi du lịch khắp nơi.", tense: "conditional_2" },
+        { en: ["If", "she", "had", "more", "time", "she", "would", "help"], vi: "Nếu cô ấy có nhiều thời gian hơn cô ấy sẽ giúp.", tense: "conditional_2" },
+        { en: ["If", "he", "studied", "harder", "he", "would", "pass", "exam"], vi: "Nếu anh ấy học chăm hơn anh ấy sẽ qua được kỳ thi.", tense: "conditional_2" },
+        { en: ["If", "they", "lived", "here", "they", "would", "be", "happy"], vi: "Nếu họ sống ở đây họ sẽ rất hạnh phúc.", tense: "conditional_2" },
+        { en: ["If", "we", "had", "a", "car", "we", "would", "drive"], vi: "Nếu chúng tôi có ô tô chúng tôi sẽ lái xe đi.", tense: "conditional_2" },
+        { en: ["If", "I", "knew", "the", "answer", "I", "would", "tell"], vi: "Nếu tôi biết câu trả lời tôi sẽ nói cho bạn.", tense: "conditional_2" },
+        // Conditional Type 3 - Hard (8 words)
+        { en: ["If", "I", "had", "studied", "harder", "I", "would", "have"], vi: "Nếu tôi học chăm hơn tôi đã có thể đậu rồi.", tense: "conditional_3" },
+        { en: ["If", "she", "had", "left", "earlier", "she", "would", "have"], vi: "Nếu cô ấy đi sớm hơn cô ấy đã kịp xe rồi.", tense: "conditional_3" },
+        { en: ["If", "he", "had", "been", "careful", "he", "would", "not"], vi: "Nếu anh ấy cẩn thận hơn anh ấy đã không bị tai nạn.", tense: "conditional_3" },
+        { en: ["If", "they", "had", "saved", "money", "they", "would", "have"], vi: "Nếu họ đã tiết kiệm tiền họ đã mua được nhà rồi.", tense: "conditional_3" },
+        { en: ["If", "we", "had", "arrived", "on", "time", "we", "would"], vi: "Nếu chúng tôi đến đúng giờ chúng tôi đã không lỡ tàu.", tense: "conditional_3" },
+        { en: ["She", "would", "have", "won", "if", "she", "had", "tried"], vi: "Nếu cô ấy đã cố gắng cô ấy đã thắng rồi.", tense: "conditional_3" },
       ]
     };
 
